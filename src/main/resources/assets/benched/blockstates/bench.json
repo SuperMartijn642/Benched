@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "visible=true,rotation=north": {
+      "model": "benched:bench",
+      "y": 90
+    },
+    "visible=true,rotation=east": {
+      "model": "benched:bench",
+      "y": 180
+    },
+    "visible=true,rotation=south": {
+      "model": "benched:bench",
+      "y": 270
+    },
+    "visible=true,rotation=west": {
+      "model": "benched:bench",
+      "y": 0
+    },
+    "visible=false,rotation=north": {
+      "model": "benched:bench",
+      "y": 90
+    },
+    "visible=false,rotation=east": {
+      "model": "benched:bench",
+      "y": 180
+    },
+    "visible=false,rotation=south": {
+      "model": "benched:bench",
+      "y": 270
+    },
+    "visible=false,rotation=west": {
+      "model": "benched:bench",
+      "y": 0
+    }
+  }
+}

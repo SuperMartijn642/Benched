@@ -1,5 +1,6 @@
 package com.supermartijn642.benched;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -48,8 +49,8 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound){
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound){
+        super.read(state, compound);
         this.others.clear();
         if(compound.contains("other1X"))
             this.others.add(new BlockPos(compound.getInt("other1X"), compound.getInt("other1Y"), compound.getInt("other1Z")));
@@ -66,7 +67,7 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT tag){
-        this.read(tag);
+    public void handleUpdateTag(BlockState state, CompoundNBT tag){
+        this.read(state, tag);
     }
 }

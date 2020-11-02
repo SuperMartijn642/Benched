@@ -139,14 +139,6 @@ public class BenchBlock extends Block {
         return true;
     }
 
-    public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos){
-        return false;
-    }
-
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos){
-        return false;
-    }
-
     @Override
     public BlockRenderType getRenderType(BlockState state){
         return state.get(VISIBLE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;

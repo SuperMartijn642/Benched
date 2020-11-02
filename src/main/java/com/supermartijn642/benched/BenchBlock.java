@@ -46,8 +46,8 @@ public class BenchBlock extends Block {
                 VoxelShapes.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
     private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
-    private static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
-    private static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
+    public static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
     public BenchBlock(){
         super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE));

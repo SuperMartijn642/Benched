@@ -28,6 +28,14 @@ public class Benched {
     @ObjectHolder("benched:bench_tile")
     public static TileEntityType<BenchTile> bench_tile;
 
+    public Benched(){
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
+    }
+
+    public void init(FMLCommonSetupEvent e){
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> ClientProxy::init);
+    }
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent

@@ -2,12 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "WWW",
-    "W W",
-    "WWW"
+    "WSW",
+    "S S"
   ],
   "key": {
     "W": {
       "tag": "planks"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
     }
   },
   "result": {

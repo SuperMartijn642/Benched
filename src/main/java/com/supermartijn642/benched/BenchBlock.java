@@ -1,28 +1,27 @@
 package com.supermartijn642.benched;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,42 +31,44 @@ import java.util.List;
  */
 public class BenchBlock extends Block {
 
-    private static final VoxelShape SHAPE3 =
-        VoxelShapes.or(VoxelShapes.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
-            VoxelShapes.create(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
+    private static final AxisAlignedBB SHAPE3 =
+        new AxisAlignedBB(0, 0, 0, 1, 17 / 32d, 29 / 32d).union(
+            new AxisAlignedBB(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
         SHAPE1 =
-            VoxelShapes.or(VoxelShapes.create(0, 0, 3 / 32d, 1, 17 / 32d, 1),
-                VoxelShapes.create(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
+            new AxisAlignedBB(0, 0, 3 / 32d, 1, 17 / 32d, 1).union(
+                new AxisAlignedBB(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
         SHAPE2 =
-            VoxelShapes.or(VoxelShapes.create(0, 0, 0, 29 / 32d, 17 / 32d, 1),
-                VoxelShapes.create(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+            new AxisAlignedBB(0, 0, 0, 29 / 32d, 17 / 32d, 1).union(
+                new AxisAlignedBB(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
         SHAPE4 =
-            VoxelShapes.or(VoxelShapes.create(3 / 32d, 0, 0, 1, 17 / 32d, 1),
-                VoxelShapes.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
-    private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
+            new AxisAlignedBB(3 / 32d, 0, 0, 1, 17 / 32d, 1).union(
+                new AxisAlignedBB(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
+    private static final AxisAlignedBB[] SHAPES = new AxisAlignedBB[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
-    public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
-    public static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    public static final PropertyBool VISIBLE = PropertyBool.create("visible");
+    public static final PropertyEnum<EnumFacing> ROTATION = PropertyEnum.create("rotation", EnumFacing.class, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST);
 
     public BenchBlock(){
-        super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE));
+        super(Material.WOOD, MapColor.BROWN);
         this.setRegistryName("bench");
-        this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH));
+        this.setUnlocalizedName("benched.bench");
+        this.setHardness(1.5f);
+        this.setResistance(6);
+        this.setCreativeTab(CreativeTabs.SEARCH);
+
+        this.setDefaultState(this.getDefaultState().withProperty(VISIBLE, true).withProperty(ROTATION, EnumFacing.NORTH));
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context){
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
-        Direction facing = context.getPlacementHorizontalFacing();
-        if(!world.isAirBlock(pos.offset(facing)) || !world.isAirBlock(pos.offset(facing.rotateY())) || !world.isAirBlock(pos.offset(facing).offset(facing.rotateY())))
-            return null;
-        return this.getDefaultState().with(ROTATION, context.getPlacementHorizontalFacing());
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand){
+        if(!world.isAirBlock(pos.offset(placer.getHorizontalFacing())) || !world.isAirBlock(pos.offset(placer.getHorizontalFacing().rotateY())) || !world.isAirBlock(pos.offset(placer.getHorizontalFacing()).offset(placer.getHorizontalFacing().rotateY())))
+            return Blocks.AIR.getDefaultState();
+        return this.getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing());
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
-        Direction facing = placer.getHorizontalFacing();
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
+        EnumFacing facing = placer.getHorizontalFacing();
         List<BlockPos> others = new ArrayList<>(4);
         List<BenchTile> tiles = new ArrayList<>(4);
         others.add(pos);
@@ -78,7 +79,7 @@ public class BenchBlock extends Block {
         }
         BlockPos pos1 = pos.offset(facing);
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -86,7 +87,7 @@ public class BenchBlock extends Block {
         }
         pos1 = pos.offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -94,7 +95,7 @@ public class BenchBlock extends Block {
         }
         pos1 = pos.offset(facing).offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -108,62 +109,81 @@ public class BenchBlock extends Block {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving){
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state){
         TileEntity tile = worldIn.getTileEntity(pos);
         if(tile instanceof BenchTile)
             for(BlockPos other : ((BenchTile)tile).getOthers())
                 if(worldIn.getBlockState(other).getBlock() == this)
                     worldIn.setBlockState(other, Blocks.AIR.getDefaultState());
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context){
-        TileEntity tile = worldIn.getTileEntity(pos);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
+        TileEntity tile = source.getTileEntity(pos);
         if(tile instanceof BenchTile)
             return SHAPES[((BenchTile)tile).shape];
-        return VoxelShapes.empty();
+        return null;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos){
-        return VoxelShapes.empty();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos){
+    public float getAmbientOcclusionLightValue(IBlockState state){
         return 0.7F;
     }
 
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos){
-        return true;
-    }
-
-    public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos){
-        return false;
-    }
-
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos){
+    @Override
+    public boolean causesSuffocation(IBlockState state){
         return false;
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state){
-        return state.get(VISIBLE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;
+    public boolean isOpaqueCube(IBlockState state){
+        return false;
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state){
+    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos){
+        return false;
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state){
+        return state.getValue(VISIBLE) ? EnumBlockRenderType.MODEL : EnumBlockRenderType.INVISIBLE;
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state){
         return true;
     }
 
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world){
+    public TileEntity createTileEntity(World world, IBlockState state){
         return new BenchTile();
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block,BlockState> builder){
-        builder.add(VISIBLE, ROTATION);
+    protected BlockStateContainer createBlockState(){
+        return new BlockStateContainer(this, VISIBLE, ROTATION);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta){
+        return this.getDefaultState().withProperty(VISIBLE, meta % 2 == 1).withProperty(ROTATION, EnumFacing.getHorizontal(meta >> 1));
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state){
+        return (state.getValue(VISIBLE) ? 1 : 0) + (state.getValue(ROTATION).getHorizontalIndex() << 1);
+    }
+
+    @Override
+    public boolean isTopSolid(IBlockState state){
+        return false;
+    }
+
+    @Override
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face){
+        return BlockFaceShape.UNDEFINED;
     }
 }

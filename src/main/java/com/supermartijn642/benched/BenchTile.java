@@ -1,6 +1,6 @@
 package com.supermartijn642.benched;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -16,7 +16,7 @@ public class BenchTile extends TileEntity {
     public int shape = 0;
 
     public BenchTile(){
-        super(Benched.bench_tile);
+        super();
     }
 
     public void setOthers(List<BlockPos> others){
@@ -30,43 +30,43 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound){
-        super.write(compound);
+    public NBTTagCompound writeToNBT(NBTTagCompound compound){
+        super.writeToNBT(compound);
         if(this.others.size() >= 3){
-            compound.putInt("other1X", this.others.get(0).getX());
-            compound.putInt("other1Y", this.others.get(0).getY());
-            compound.putInt("other1Z", this.others.get(0).getZ());
-            compound.putInt("other2X", this.others.get(1).getX());
-            compound.putInt("other2Y", this.others.get(1).getY());
-            compound.putInt("other2Z", this.others.get(1).getZ());
-            compound.putInt("other3X", this.others.get(2).getX());
-            compound.putInt("other3Y", this.others.get(2).getY());
-            compound.putInt("other3Z", this.others.get(2).getZ());
+            compound.setInteger("other1X", this.others.get(0).getX());
+            compound.setInteger("other1Y", this.others.get(0).getY());
+            compound.setInteger("other1Z", this.others.get(0).getZ());
+            compound.setInteger("other2X", this.others.get(1).getX());
+            compound.setInteger("other2Y", this.others.get(1).getY());
+            compound.setInteger("other2Z", this.others.get(1).getZ());
+            compound.setInteger("other3X", this.others.get(2).getX());
+            compound.setInteger("other3Y", this.others.get(2).getY());
+            compound.setInteger("other3Z", this.others.get(2).getZ());
         }
-        compound.putInt("shape", this.shape);
+        compound.setInteger("shape", this.shape);
         return compound;
     }
 
     @Override
-    public void read(CompoundNBT compound){
-        super.read(compound);
+    public void readFromNBT(NBTTagCompound compound){
+        super.readFromNBT(compound);
         this.others.clear();
-        if(compound.contains("other1X"))
-            this.others.add(new BlockPos(compound.getInt("other1X"), compound.getInt("other1Y"), compound.getInt("other1Z")));
-        if(compound.contains("other2X"))
-            this.others.add(new BlockPos(compound.getInt("other2X"), compound.getInt("other2Y"), compound.getInt("other2Z")));
-        if(compound.contains("other3X"))
-            this.others.add(new BlockPos(compound.getInt("other3X"), compound.getInt("other3Y"), compound.getInt("other3Z")));
-        this.shape = compound.getInt("shape");
+        if(compound.hasKey("other1X"))
+            this.others.add(new BlockPos(compound.getInteger("other1X"), compound.getInteger("other1Y"), compound.getInteger("other1Z")));
+        if(compound.hasKey("other2X"))
+            this.others.add(new BlockPos(compound.getInteger("other2X"), compound.getInteger("other2Y"), compound.getInteger("other2Z")));
+        if(compound.hasKey("other3X"))
+            this.others.add(new BlockPos(compound.getInteger("other3X"), compound.getInteger("other3Y"), compound.getInteger("other3Z")));
+        this.shape = compound.getInteger("shape");
     }
 
     @Override
-    public CompoundNBT getUpdateTag(){
-        return this.write(new CompoundNBT());
+    public NBTTagCompound getUpdateTag(){
+        return this.writeToNBT(new NBTTagCompound());
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT tag){
-        this.read(tag);
+    public void handleUpdateTag(NBTTagCompound tag){
+        this.readFromNBT(tag);
     }
 }

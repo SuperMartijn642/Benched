@@ -1,0 +1,16 @@
+[
+{
+  "modid": "benched",
+  "name": "Benched",
+  "description": "Benched adds a picnic bench!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SuperMartijn642"],
+  "credits": "",
+  "logoFile": "benched.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

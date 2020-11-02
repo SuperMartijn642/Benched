@@ -122,7 +122,7 @@ public class BenchBlock extends Block {
         TileEntity tile = worldIn.getTileEntity(pos);
         if(tile instanceof BenchTile)
             return SHAPES[((BenchTile)tile).shape];
-        return VoxelShapes.fullCube();
+        return VoxelShapes.empty();
     }
 
     @Override

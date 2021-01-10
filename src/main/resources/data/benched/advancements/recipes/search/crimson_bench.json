@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "benched:crimson_bench"
+    ]
+  },
+  "criteria": {
+    "wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:crimson_planks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wood"
+    ]
+  ]
+}

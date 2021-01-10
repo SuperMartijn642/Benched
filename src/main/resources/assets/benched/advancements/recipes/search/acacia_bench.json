@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "benched:acacia_bench"
+    ]
+  },
+  "criteria": {
+    "wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:planks",
+            "data": 4
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wood"
+    ]
+  ]
+}

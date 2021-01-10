@@ -1,0 +1,8 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl wire_135006006
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	d 1.0000
+	map_Kd benched:oak_bench

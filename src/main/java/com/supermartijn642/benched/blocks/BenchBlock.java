@@ -1,6 +1,6 @@
-package com.supermartijn642.benched;
+package com.supermartijn642.benched.blocks;
 
-import net.minecraft.block.Block;
+import com.supermartijn642.benched.seat.SeatBlock;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created 7/10/2020 by SuperMartijn642
  */
-public class BenchBlock extends Block {
+public class BenchBlock extends SeatBlock {
 
     private static final AxisAlignedBB SHAPE3 =
         new AxisAlignedBB(0, 0, 0, 1, 17 / 32d, 29 / 32d).union(
@@ -48,15 +48,19 @@ public class BenchBlock extends Block {
     public static final PropertyBool VISIBLE = PropertyBool.create("visible");
     public static final PropertyEnum<EnumFacing> ROTATION = PropertyEnum.create("rotation", EnumFacing.class, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST);
 
-    public BenchBlock(){
-        super(Material.WOOD, MapColor.BROWN);
-        this.setRegistryName("bench");
-        this.setUnlocalizedName("benched.bench");
+    public BenchBlock(String registryName){
+        super(Material.WOOD, MapColor.BROWN, registryName);
+        this.setUnlocalizedName("benched." + registryName);
         this.setHardness(1.5f);
         this.setResistance(6);
-        this.setCreativeTab(CreativeTabs.SEARCH);
+        this.setCreativeTab(CreativeTabs.DECORATIONS);
 
         this.setDefaultState(this.getDefaultState().withProperty(VISIBLE, true).withProperty(ROTATION, EnumFacing.NORTH));
+    }
+
+    @Override
+    protected double getSeatHeight(){
+        return 0.7;
     }
 
     @Override
@@ -129,7 +133,7 @@ public class BenchBlock extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public float getAmbientOcclusionLightValue(IBlockState state){
-        return 0.7F;
+        return 1F;
     }
 
     @Override

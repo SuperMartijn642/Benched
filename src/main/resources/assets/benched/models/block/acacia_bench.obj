@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib bench.mtl
+mtllib acacia_bench.mtl
 o Rectangle073
 v -0.955647 0.405959 -0.836529
 v -0.984396 0.405959 -0.836530

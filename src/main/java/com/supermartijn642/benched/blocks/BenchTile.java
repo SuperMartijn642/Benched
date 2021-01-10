@@ -1,7 +1,6 @@
-package com.supermartijn642.benched;
+package com.supermartijn642.benched.blocks;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * Created 11/1/2020 by SuperMartijn642
  */
-public class BenchTile extends TileEntity {
+public class BenchTile extends BenchedBaseTile {
 
     private final List<BlockPos> others = new ArrayList<>();
     public int shape = 0;
@@ -23,6 +22,7 @@ public class BenchTile extends TileEntity {
         for(BlockPos pos : others)
             if(!pos.equals(this.pos))
                 this.others.add(pos);
+        this.dataChanged();
     }
 
     public List<BlockPos> getOthers(){
@@ -30,8 +30,8 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound){
-        super.writeToNBT(compound);
+    protected NBTTagCompound writeData(){
+        NBTTagCompound compound = new NBTTagCompound();
         if(this.others.size() >= 3){
             compound.setInteger("other1X", this.others.get(0).getX());
             compound.setInteger("other1Y", this.others.get(0).getY());
@@ -48,8 +48,7 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound){
-        super.readFromNBT(compound);
+    protected void readData(NBTTagCompound compound){
         this.others.clear();
         if(compound.hasKey("other1X"))
             this.others.add(new BlockPos(compound.getInteger("other1X"), compound.getInteger("other1Y"), compound.getInteger("other1Z")));
@@ -58,15 +57,5 @@ public class BenchTile extends TileEntity {
         if(compound.hasKey("other3X"))
             this.others.add(new BlockPos(compound.getInteger("other3X"), compound.getInteger("other3Y"), compound.getInteger("other3Z")));
         this.shape = compound.getInteger("shape");
-    }
-
-    @Override
-    public NBTTagCompound getUpdateTag(){
-        return this.writeToNBT(new NBTTagCompound());
-    }
-
-    @Override
-    public void handleUpdateTag(NBTTagCompound tag){
-        this.readFromNBT(tag);
     }
 }

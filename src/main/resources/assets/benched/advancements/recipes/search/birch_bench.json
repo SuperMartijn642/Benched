@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "benched:bench"
+      "benched:birch_bench"
     ]
   },
   "criteria": {
@@ -11,7 +11,8 @@
       "conditions": {
         "items": [
           {
-            "tag": "minecraft:planks"
+            "item": "minecraft:planks",
+            "data": 2
           }
         ]
       }

@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WWW",
+    "WSW",
+    "S S"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:planks",
+      "data": 3
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  },
+  "result": {
+    "item": "benched:jungle_bench"
+  }
+}

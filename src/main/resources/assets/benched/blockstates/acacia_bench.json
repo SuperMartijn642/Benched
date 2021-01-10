@@ -1,18 +1,18 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "benched:oak_bench.obj",
+    "model": "benched:acacia_bench.obj",
     "textures": {
-      "particle": "benched:oak_bench"
+      "particle": "benched:acacia_bench"
     }
   },
   "variants": {
     "inventory": [{
       "transform": {
         "gui": {
-            "rotation": [ 30, 225, 0 ],
-            "translation": [ -0.27, 0, 0],
-            "scale":[ 0.37, 0.37, 0.37 ]
+          "rotation": [ 30, 225, 0 ],
+          "translation": [ -0.27, 0, 0],
+          "scale":[ 0.37, 0.37, 0.37 ]
         },
         "ground": {
           "rotation": [ 0, 0, 0 ],

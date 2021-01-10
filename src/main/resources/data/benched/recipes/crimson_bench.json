@@ -7,13 +7,13 @@
   ],
   "key": {
     "W": {
-      "tag": "planks"
+      "item": "minecraft:crimson_planks"
     },
     "S": {
       "tag": "forge:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:bench"
+    "item": "benched:crimson_bench"
   }
 }

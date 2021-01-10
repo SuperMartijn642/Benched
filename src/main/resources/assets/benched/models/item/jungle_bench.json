@@ -1,5 +1,5 @@
 {
-    "parent": "benched:bench",
+    "parent": "benched:jungle_bench",
     "gui_light": "side",
     "display": {
         "gui": {

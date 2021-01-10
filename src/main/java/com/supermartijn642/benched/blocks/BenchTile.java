@@ -1,5 +1,7 @@
-package com.supermartijn642.benched;
+package com.supermartijn642.benched.blocks;
 
+import com.supermartijn642.benched.Benched;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created 11/1/2020 by SuperMartijn642
  */
-public class BenchTile extends TileEntity {
+public class BenchTile extends BenchedBaseTile {
 
     private final List<BlockPos> others = new ArrayList<>();
     public int shape = 0;
@@ -23,6 +25,7 @@ public class BenchTile extends TileEntity {
         for(BlockPos pos : others)
             if(!pos.equals(this.pos))
                 this.others.add(pos);
+        this.dataChanged();
     }
 
     public List<BlockPos> getOthers(){
@@ -30,8 +33,8 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound){
-        super.write(compound);
+    protected CompoundNBT writeData(){
+        CompoundNBT compound = new CompoundNBT();
         if(this.others.size() >= 3){
             compound.putInt("other1X", this.others.get(0).getX());
             compound.putInt("other1Y", this.others.get(0).getY());
@@ -48,8 +51,7 @@ public class BenchTile extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound){
-        super.read(compound);
+    protected void readData(CompoundNBT compound){
         this.others.clear();
         if(compound.contains("other1X"))
             this.others.add(new BlockPos(compound.getInt("other1X"), compound.getInt("other1Y"), compound.getInt("other1Z")));
@@ -58,15 +60,5 @@ public class BenchTile extends TileEntity {
         if(compound.contains("other3X"))
             this.others.add(new BlockPos(compound.getInt("other3X"), compound.getInt("other3Y"), compound.getInt("other3Z")));
         this.shape = compound.getInt("shape");
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag(){
-        return this.write(new CompoundNBT());
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag){
-        this.read(tag);
     }
 }

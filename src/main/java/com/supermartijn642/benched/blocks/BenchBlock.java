@@ -1,5 +1,6 @@
-package com.supermartijn642.benched;
+package com.supermartijn642.benched.blocks;
 
+import com.supermartijn642.benched.seat.SeatBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * Created 7/10/2020 by SuperMartijn642
  */
-public class BenchBlock extends Block {
+public class BenchBlock extends SeatBlock {
 
     private static final VoxelShape SHAPE3 =
         VoxelShapes.or(VoxelShapes.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
@@ -46,13 +47,17 @@ public class BenchBlock extends Block {
                 VoxelShapes.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
     private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
-    private static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
+    public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
     private static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
-    public BenchBlock(){
-        super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE));
-        this.setRegistryName("bench");
+    public BenchBlock(String registryName){
+        super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
         this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH));
+    }
+
+    @Override
+    protected double getSeatHeight(){
+        return 0.7;
     }
 
     @Override
@@ -132,7 +137,7 @@ public class BenchBlock extends Block {
 
     @OnlyIn(Dist.CLIENT)
     public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos){
-        return 0.7F;
+        return 1F;
     }
 
     public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos){

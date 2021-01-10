@@ -1,12 +1,13 @@
 {
   "loader": "forge:obj",
-  "model": "benched:models/bench_new.obj",
+  "model": "benched:models/bench.obj",
   "flip-v": true,
   "detectCullableFaces": false,
   "diffuseLighting": false,
   "ambientToFullbright": true,
   "textures":
   {
-    "particle": "benched:bench"
+    "main": "benched:oak_bench",
+    "particle": "#main"
   }
 }

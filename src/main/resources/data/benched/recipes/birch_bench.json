@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WSW",
+    "S S"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:birch_planks"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "benched:birch_bench"
+  }
+}

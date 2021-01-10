@@ -33,10 +33,6 @@ public class Benched {
     public static Block oak_bench;
     @ObjectHolder("benched:spruce_bench")
     public static Block spruce_bench;
-    @ObjectHolder("benched:crimson_bench")
-    public static Block crimson_bench;
-    @ObjectHolder("benched:warped_bench")
-    public static Block warped_bench;
 
     @ObjectHolder("benched:bench_tile")
     public static TileEntityType<BenchTile> bench_tile;
@@ -57,8 +53,6 @@ public class Benched {
             e.getRegistry().register(new BenchBlock("jungle_bench"));
             e.getRegistry().register(new BenchBlock("bench")); // oak_bench
             e.getRegistry().register(new BenchBlock("spruce_bench"));
-            e.getRegistry().register(new BenchBlock("crimson_bench"));
-            e.getRegistry().register(new BenchBlock("warped_bench"));
         }
 
         @SubscribeEvent
@@ -74,8 +68,6 @@ public class Benched {
             e.getRegistry().register(new BlockItem(jungle_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(jungle_bench.getRegistryName()));
             e.getRegistry().register(new BlockItem(oak_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(oak_bench.getRegistryName()));
             e.getRegistry().register(new BlockItem(spruce_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(spruce_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(crimson_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(crimson_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(warped_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(warped_bench.getRegistryName()));
         }
 
         @SubscribeEvent

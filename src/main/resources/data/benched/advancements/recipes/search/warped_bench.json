@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "benched:bench"
+      "benched:warped_bench"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "minecraft:planks"
+            "item": "minecraft:warped_planks"
           }
         ]
       }

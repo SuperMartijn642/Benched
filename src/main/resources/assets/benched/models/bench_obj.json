@@ -1,8 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "benched:models/bench_new.obj",
-  "flip-v": true,
-  "detectCullableFaces": false,
-  "diffuseLighting": false,
-  "ambientToFullbright": true
-}

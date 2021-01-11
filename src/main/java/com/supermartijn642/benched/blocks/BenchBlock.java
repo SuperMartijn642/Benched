@@ -1,18 +1,18 @@
 package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.seat.SeatBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +20,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * Created 7/10/2020 by SuperMartijn642
  */
-public class BenchBlock extends SeatBlock {
+public class BenchBlock extends SeatBlock implements IWaterLoggable {
 
     private static final VoxelShape SHAPE3 =
         VoxelShapes.or(VoxelShapes.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
@@ -49,10 +50,11 @@ public class BenchBlock extends SeatBlock {
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
     private static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BenchBlock(String registryName){
         super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
-        this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH));
+        this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
@@ -65,9 +67,15 @@ public class BenchBlock extends SeatBlock {
         World world = context.getWorld();
         BlockPos pos = context.getPos();
         Direction facing = context.getPlacementHorizontalFacing();
-        if(!world.isAirBlock(pos.offset(facing)) || !world.isAirBlock(pos.offset(facing.rotateY())) || !world.isAirBlock(pos.offset(facing).offset(facing.rotateY())))
+        if(!canBeReplaced(world, pos.offset(facing)) || !canBeReplaced(world, pos.offset(facing.rotateY())) || !canBeReplaced(world, pos.offset(facing).offset(facing.rotateY())))
             return null;
-        return this.getDefaultState().with(ROTATION, context.getPlacementHorizontalFacing());
+
+        FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
+        return this.getDefaultState().with(ROTATION, context.getPlacementHorizontalFacing()).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
+    }
+
+    private static boolean canBeReplaced(World world, BlockPos pos){
+        return world.isAirBlock(pos) || world.getBlockState(pos).getBlock() == Blocks.WATER;
     }
 
     @Override
@@ -83,7 +91,8 @@ public class BenchBlock extends SeatBlock {
         }
         BlockPos pos1 = pos.offset(facing);
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        FluidState fluidstate = worldIn.getFluidState(pos1);
+        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -91,7 +100,8 @@ public class BenchBlock extends SeatBlock {
         }
         pos1 = pos.offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        fluidstate = worldIn.getFluidState(pos1);
+        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -99,7 +109,8 @@ public class BenchBlock extends SeatBlock {
         }
         pos1 = pos.offset(facing).offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false));
+        fluidstate = worldIn.getFluidState(pos1);
+        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
         tile = worldIn.getTileEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
@@ -114,11 +125,18 @@ public class BenchBlock extends SeatBlock {
 
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving){
-        TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BenchTile)
-            for(BlockPos other : ((BenchTile)tile).getOthers())
-                if(worldIn.getBlockState(other).getBlock() == this)
-                    worldIn.setBlockState(other, Blocks.AIR.getDefaultState());
+        if(state.hasTileEntity() && (!state.isIn(newState.getBlock()) || !newState.hasTileEntity())){
+            TileEntity tile = worldIn.getTileEntity(pos);
+            if(tile instanceof BenchTile){
+                for(BlockPos other : ((BenchTile)tile).getOthers()){
+                    BlockState state1 = worldIn.getBlockState(other);
+                    if(state1.getBlock() == this){
+                        worldIn.setBlockState(other,
+                            state1.get(WATERLOGGED) ? Blocks.WATER.getDefaultState() : Blocks.AIR.getDefaultState());
+                    }
+                }
+            }
+        }
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
@@ -161,6 +179,18 @@ public class BenchBlock extends SeatBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block,BlockState> builder){
-        builder.add(VISIBLE, ROTATION);
+        builder.add(VISIBLE, ROTATION, WATERLOGGED);
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state){
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos){
+        if(stateIn.get(WATERLOGGED))
+            worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 }

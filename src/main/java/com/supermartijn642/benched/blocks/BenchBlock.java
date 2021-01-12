@@ -127,7 +127,7 @@ public class BenchBlock extends SeatBlock {
         TileEntity tile = source.getTileEntity(pos);
         if(tile instanceof BenchTile)
             return SHAPES[((BenchTile)tile).shape];
-        return null;
+        return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
     }
 
     @SideOnly(Side.CLIENT)

@@ -31,9 +31,7 @@ public class SeatEntity extends Entity {
 
     @Override
     public void onEntityUpdate(){
-        super.onEntityUpdate();
-
-        if(!this.world.isRemote && (this.getPassengers().isEmpty() || !(this.world.getBlockState(this.getPosition()).getBlock() instanceof BenchBlock)))
+        if(!this.world.isRemote && (this.getPassengers().isEmpty() || !(this.world.getBlockState(this.getPosition().down()).getBlock() instanceof BenchBlock)))
             this.world.removeEntity(this);
     }
 

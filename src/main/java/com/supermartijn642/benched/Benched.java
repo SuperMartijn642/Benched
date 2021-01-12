@@ -3,14 +3,16 @@ package com.supermartijn642.benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
 import com.supermartijn642.benched.blocks.BenchItemBlock;
 import com.supermartijn642.benched.blocks.BenchTile;
+import com.supermartijn642.benched.seat.SeatEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.util.*;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -42,6 +44,8 @@ public class Benched {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e){
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "seatentity"), SeatEntity.class, "Seat", 0, this, 64, 1, false);
+
         if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
             ClientProxy.init(e);
     }

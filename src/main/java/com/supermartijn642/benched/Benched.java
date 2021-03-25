@@ -38,6 +38,7 @@ public class Benched {
     @ObjectHolder("benched:warped_bench")
     public static Block warped_bench;
 
+    @ObjectHolder("benched:bench_tile")
     public static TileEntityType<BenchTile> bench_tile;
 
     @ObjectHolder("benched:seat_entity")

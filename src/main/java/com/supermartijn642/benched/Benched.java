@@ -41,6 +41,7 @@ public class Benched {
     public static EntityType<SeatEntity> seat_entity;
 
     public Benched(){
+        BenchedConfig.init();
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -53,11 +54,13 @@ public class Benched {
             e.getRegistry().register(new BenchBlock("jungle_bench"));
             e.getRegistry().register(new BenchBlock("bench")); // oak_bench
             e.getRegistry().register(new BenchBlock("spruce_bench"));
+            e.getRegistry().register(new BenchBlock("crimson_bench"));
+            e.getRegistry().register(new BenchBlock("warped_bench"));
         }
 
         @SubscribeEvent
         public static void onTileRegistry(final RegistryEvent.Register<TileEntityType<?>> e){
-            e.getRegistry().register(TileEntityType.Builder.create(BenchTile::new, oak_bench).build(null).setRegistryName("bench_tile"));
+            e.getRegistry().register(TileEntityType.Builder.create(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench).build(null).setRegistryName("bench_tile"));
         }
 
         @SubscribeEvent

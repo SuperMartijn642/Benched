@@ -54,8 +54,6 @@ public class Benched {
             e.getRegistry().register(new BenchBlock("jungle_bench"));
             e.getRegistry().register(new BenchBlock("bench")); // oak_bench
             e.getRegistry().register(new BenchBlock("spruce_bench"));
-            e.getRegistry().register(new BenchBlock("crimson_bench"));
-            e.getRegistry().register(new BenchBlock("warped_bench"));
         }
 
         @SubscribeEvent

@@ -1,5 +1,6 @@
 package com.supermartijn642.benched;
 
+import com.supermartijn642.benched.blocks.BenchTileRenderer;
 import com.supermartijn642.benched.seat.SeatEntityRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,5 +18,6 @@ public class ClientProxy {
     @SubscribeEvent
     public static void onSetup(FMLClientSetupEvent e){
         RenderingRegistry.registerEntityRenderingHandler(Benched.seat_entity, SeatEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(Benched.bench_tile, BenchTileRenderer::new);
     }
 }

@@ -93,5 +93,18 @@ dependencies {
     // at runtime, use the full JEI jar
 //    runtimeOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.0.2")
 
-    runtimeOnly fg.deobf("curse.maven:block-renderer:3097397")
+    // Core Lib
+    compile fg.deobf("curse.maven:supermartijn642s-core-lib:3235057")
+    // Config Lib
+    compile fg.deobf("curse.maven:supermartijn642s-config-lib:3226128")
+
+    // Mekanism
+    runtimeOnly fg.deobf("curse.maven:mekanism:3134211")
+
+    // Powah
+    runtimeOnly fg.deobf("curse.maven:powah:3162164")
+    // Lollipop
+    runtimeOnly fg.deobf("curse.maven:lollipop:3129279")
+
+//    runtimeOnly fg.deobf("curse.maven:block-renderer:3097397")
 }

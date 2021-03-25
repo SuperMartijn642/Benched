@@ -38,13 +38,28 @@ public class Benched {
     @ObjectHolder("benched:warped_bench")
     public static Block warped_bench;
 
+    @ObjectHolder("benched:acacia_bench_tile")
+    public static TileEntityType<BenchTile> acacia_bench_tile;
+    @ObjectHolder("benched:birch_bench_tile")
+    public static TileEntityType<BenchTile> birch_bench_tile;
+    @ObjectHolder("benched:dark_oak_bench_tile")
+    public static TileEntityType<BenchTile> dark_oak_bench_tile;
+    @ObjectHolder("benched:jungle_bench_tile")
+    public static TileEntityType<BenchTile> jungle_bench_tile;
     @ObjectHolder("benched:bench_tile")
     public static TileEntityType<BenchTile> bench_tile;
+    @ObjectHolder("benched:spruce_bench_tile")
+    public static TileEntityType<BenchTile> spruce_bench_tile;
+    @ObjectHolder("benched:crimson_bench_tile")
+    public static TileEntityType<BenchTile> crimson_bench_tile;
+    @ObjectHolder("benched:warped_bench_tile")
+    public static TileEntityType<BenchTile> warped_bench_tile;
 
     @ObjectHolder("benched:seat_entity")
     public static EntityType<SeatEntity> seat_entity;
 
     public Benched(){
+        BenchedConfig.init();
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -63,7 +78,7 @@ public class Benched {
 
         @SubscribeEvent
         public static void onTileRegistry(final RegistryEvent.Register<TileEntityType<?>> e){
-            e.getRegistry().register(TileEntityType.Builder.create(BenchTile::new, oak_bench).build(null).setRegistryName("bench_tile"));
+            e.getRegistry().register(TileEntityType.Builder.create(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench, crimson_bench, warped_bench).build(null).setRegistryName("bench_tile"));
         }
 
         @SubscribeEvent

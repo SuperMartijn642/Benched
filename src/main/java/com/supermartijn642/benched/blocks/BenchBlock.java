@@ -5,6 +5,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -15,7 +16,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -49,12 +52,34 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
     private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
-    private static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    public static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BenchBlock(String registryName){
         super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
         this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH).with(WATERLOGGED, false));
+    }
+
+    @Override
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
+        if(!worldIn.isRemote){
+            ItemStack stack = player.getHeldItem(handIn);
+            TileEntity tile = worldIn.getTileEntity(pos);
+            if(stack.isEmpty()){
+                if(player.isSneaking() && tile instanceof BenchTile){
+                    stack = ((BenchTile)tile).removeItem();
+                    if(!stack.isEmpty()){
+                        player.setHeldItem(handIn, stack);
+                        return true;
+                    }
+                }
+            }else{
+                if(tile instanceof BenchTile)
+                    ((BenchTile)tile).addItem(stack);
+                return true;
+            }
+        }
+        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override

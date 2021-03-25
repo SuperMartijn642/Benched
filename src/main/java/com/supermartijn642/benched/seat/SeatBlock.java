@@ -1,6 +1,6 @@
 package com.supermartijn642.benched.seat;
 
-import com.supermartijn642.benched.blocks.BenchedBaseBlock;
+import com.supermartijn642.core.block.BaseBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResultType;
@@ -12,17 +12,17 @@ import net.minecraft.world.World;
 /**
  * Created 12/26/2020 by SuperMartijn642
  */
-public abstract class SeatBlock extends BenchedBaseBlock {
+public abstract class SeatBlock extends BaseBlock {
 
     public SeatBlock(Properties properties, String registryName, boolean saveTileData){
-        super(properties, registryName, saveTileData);
+        super(registryName, saveTileData, properties);
     }
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
         if(!worldIn.isRemote)
             SeatHelper.sitPlayerDown(worldIn, pos, player);
-        return ActionResultType.CONSUME;
+        return ActionResultType.func_233537_a_(worldIn.isRemote);
     }
 
     protected abstract double getSeatHeight();

@@ -59,6 +59,6 @@ description='''Benched adds a picnic bench!'''
 [[dependencies.benched]]
     modId="supermartijn642configlib"
     mandatory=true
-    versionRange="[1.0.0,)"
+    versionRange="[1.0.5,)"
     ordering="NONE"
     side="BOTH"

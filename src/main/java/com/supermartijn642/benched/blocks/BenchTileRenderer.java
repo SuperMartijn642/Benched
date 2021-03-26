@@ -1,7 +1,6 @@
 package com.supermartijn642.benched.blocks;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.supermartijn642.core.ClientUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -55,7 +54,7 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
 
 
             IBakedModel model = renderer.getItemModelWithOverrides(stack, tile.getWorld(), null);
-            ClientUtils.getMinecraft().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
+            renderer.renderItem(stack, ItemCameraTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
 
             matrixStack.pop();
 

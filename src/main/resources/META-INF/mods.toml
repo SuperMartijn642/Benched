@@ -48,3 +48,17 @@ description='''Benched adds a picnic bench!'''
     versionRange="[1.15,1.16)"
     ordering="NONE"
     side="BOTH"
+# Core Lib
+[[dependencies.benched]]
+    modId="supermartijn642corelib"
+    mandatory=true
+    versionRange="[1.0.0,1.1.0)"
+    ordering="NONE"
+    side="BOTH"
+# Config Lib
+[[dependencies.benched]]
+    modId="supermartijn642configlib"
+    mandatory=true
+    versionRange="[1.0.0,)"
+    ordering="NONE"
+    side="BOTH"

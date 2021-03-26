@@ -19,12 +19,13 @@ import net.minecraftforge.fml.relauncher.Side;
 /**
  * Created 7/7/2020 by SuperMartijn642
  */
-@Mod(modid = Benched.MODID, name = Benched.NAME, version = Benched.VERSION)
+@Mod(modid = Benched.MODID, name = Benched.NAME, version = Benched.VERSION, dependencies = Benched.DEPENDENCIES)
 public class Benched {
 
     public static final String MODID = "benched";
     public static final String NAME = "Benched";
     public static final String VERSION = "1.1.0a";
+    public static final String DEPENDENCIES = "required-after:supermartijn642configlib@[1.0.0,1.1.0);required-after:supermartijn642configlib@[1.0.5,)";
 
     @GameRegistry.ObjectHolder("benched:acacia_bench")
     public static Block acacia_bench;

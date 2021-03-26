@@ -1,6 +1,7 @@
 package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.seat.SeatBlock;
+import com.supermartijn642.core.ToolType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -10,6 +11,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -49,13 +51,33 @@ public class BenchBlock extends SeatBlock {
     public static final PropertyEnum<EnumFacing> ROTATION = PropertyEnum.create("rotation", EnumFacing.class, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST);
 
     public BenchBlock(String registryName){
-        super(Material.WOOD, MapColor.BROWN, registryName);
+        super(Properties.create(Material.WOOD, MapColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
         this.setUnlocalizedName("benched." + registryName);
-        this.setHardness(1.5f);
-        this.setResistance(6);
         this.setCreativeTab(CreativeTabs.DECORATIONS);
 
         this.setDefaultState(this.getDefaultState().withProperty(VISIBLE, true).withProperty(ROTATION, EnumFacing.NORTH));
+    }
+
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand handIn, EnumFacing facing, float hitX, float hitY, float hitZ){
+        if(!worldIn.isRemote){
+            ItemStack stack = player.getHeldItem(handIn);
+            TileEntity tile = worldIn.getTileEntity(pos);
+            if(stack.isEmpty()){
+                if(player.isSneaking() && tile instanceof BenchTile){
+                    stack = ((BenchTile)tile).removeItem();
+                    if(!stack.isEmpty()){
+                        player.setHeldItem(handIn, stack);
+                        return true;
+                    }
+                }
+            }else{
+                if(tile instanceof BenchTile)
+                    ((BenchTile)tile).addItem(stack);
+                return true;
+            }
+        }
+        return super.onBlockActivated(worldIn, pos, state, player, handIn, facing, hitX, hitY, hitZ);
     }
 
     @Override

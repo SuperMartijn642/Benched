@@ -1,8 +1,6 @@
 package com.supermartijn642.benched.seat;
 
-import com.supermartijn642.benched.blocks.BenchedBaseBlock;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
+import com.supermartijn642.core.block.BaseBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -13,10 +11,10 @@ import net.minecraft.world.World;
 /**
  * Created 12/26/2020 by SuperMartijn642
  */
-public abstract class SeatBlock extends BenchedBaseBlock {
+public abstract class SeatBlock extends BaseBlock {
 
-    public SeatBlock(Material material, MapColor color, String registryName){
-        super(material, color, registryName);
+    public SeatBlock(Properties properties, String registryName, boolean saveTileData){
+        super(registryName, saveTileData, properties);
     }
 
     @Override

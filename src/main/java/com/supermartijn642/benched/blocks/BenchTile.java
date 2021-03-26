@@ -1,6 +1,12 @@
 package com.supermartijn642.benched.blocks;
 
+import com.supermartijn642.benched.BenchedConfig;
+import com.supermartijn642.core.block.BaseTileEntity;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -9,10 +15,11 @@ import java.util.List;
 /**
  * Created 11/1/2020 by SuperMartijn642
  */
-public class BenchTile extends BenchedBaseTile {
+public class BenchTile extends BaseTileEntity {
 
     private final List<BlockPos> others = new ArrayList<>();
     public int shape = 0;
+    public NonNullList<ItemStack> items = NonNullList.create();
 
     public BenchTile(){
         super();
@@ -27,6 +34,30 @@ public class BenchTile extends BenchedBaseTile {
 
     public List<BlockPos> getOthers(){
         return this.others;
+    }
+
+    public boolean addItem(ItemStack stack){
+        if(stack.isEmpty() || stack.getItem() instanceof ItemBlock || this.items.size() >= BenchedConfig.maxStackedItems.get())
+            return false;
+
+        ItemStack copy = stack.copy();
+        copy.setCount(1);
+        this.items.add(copy);
+
+        this.dataChanged();
+
+        stack.shrink(1);
+
+        return true;
+    }
+
+    public ItemStack removeItem(){
+        if(this.items.size() == 0)
+            return ItemStack.EMPTY;
+
+        this.dataChanged();
+
+        return this.items.remove(this.items.size() - 1);
     }
 
     @Override
@@ -44,6 +75,9 @@ public class BenchTile extends BenchedBaseTile {
             compound.setInteger("other3Z", this.others.get(2).getZ());
         }
         compound.setInteger("shape", this.shape);
+        NBTTagList items = new NBTTagList();
+        this.items.forEach(item -> items.appendTag(item.writeToNBT(new NBTTagCompound())));
+        compound.setTag("items", items);
         return compound;
     }
 
@@ -57,5 +91,8 @@ public class BenchTile extends BenchedBaseTile {
         if(compound.hasKey("other3X"))
             this.others.add(new BlockPos(compound.getInteger("other3X"), compound.getInteger("other3Y"), compound.getInteger("other3Z")));
         this.shape = compound.getInteger("shape");
+        this.items.clear();
+        NBTTagList items = compound.hasKey("items") ? (NBTTagList)compound.getTag("items") : new NBTTagList();
+        items.forEach(tag -> this.items.add(new ItemStack((NBTTagCompound)tag)));
     }
 }

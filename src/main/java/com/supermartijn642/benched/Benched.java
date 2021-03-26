@@ -40,6 +40,7 @@ public class Benched {
     public static Block spruce_bench;
 
     public Benched(){
+        BenchedConfig.init();
     }
 
     @Mod.EventHandler

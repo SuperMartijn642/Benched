@@ -24,7 +24,7 @@ public class Benched {
 
     public static final String MODID = "benched";
     public static final String NAME = "Benched";
-    public static final String VERSION = "1.2.0";
+    public static final String VERSION = "1.2.1";
     public static final String DEPENDENCIES = "required-after:supermartijn642configlib@[1.0.0,1.1.0);required-after:supermartijn642configlib@[1.0.5,)";
 
     @GameRegistry.ObjectHolder("benched:acacia_bench")

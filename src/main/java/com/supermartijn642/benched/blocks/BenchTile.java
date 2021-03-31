@@ -3,6 +3,7 @@ package com.supermartijn642.benched.blocks;
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.BenchedConfig;
 import com.supermartijn642.core.block.BaseTileEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -59,6 +60,11 @@ public class BenchTile extends BaseTileEntity {
         this.dataChanged();
 
         return this.items.remove(this.items.size() - 1);
+    }
+
+    public void dropItems(){
+        InventoryHelper.dropItems(this.world, this.pos, this.items);
+        this.items.clear();
     }
 
     @Override

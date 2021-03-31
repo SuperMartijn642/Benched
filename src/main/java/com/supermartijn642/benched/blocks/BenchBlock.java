@@ -137,10 +137,12 @@ public class BenchBlock extends SeatBlock {
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state){
         TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BenchTile)
+        if(tile instanceof BenchTile){
+            ((BenchTile)tile).dropItems();
             for(BlockPos other : ((BenchTile)tile).getOthers())
                 if(worldIn.getBlockState(other).getBlock() == this)
                     worldIn.setBlockState(other, Blocks.AIR.getDefaultState());
+        }
         super.breakBlock(worldIn, pos, state);
     }
 

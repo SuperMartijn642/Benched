@@ -154,6 +154,7 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
         if(state.hasTileEntity() && (!state.isIn(newState.getBlock()) || !newState.hasTileEntity())){
             TileEntity tile = worldIn.getTileEntity(pos);
             if(tile instanceof BenchTile){
+                ((BenchTile)tile).dropItems();
                 for(BlockPos other : ((BenchTile)tile).getOthers()){
                     BlockState state1 = worldIn.getBlockState(other);
                     if(state1.getBlock() == this){

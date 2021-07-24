@@ -16,13 +16,13 @@ public class SeatHelper {
     public static void sitPlayerDown(World world, BlockPos pos, PlayerEntity player){
         Block block = world.getBlockState(pos).getBlock();
         if(block instanceof SeatBlock){
-            List<SeatEntity> entities = world.getEntitiesWithinAABB(SeatEntity.class, new AxisAlignedBB(pos).shrink(0.1));
+            List<SeatEntity> entities = world.getEntitiesOfClass(SeatEntity.class, new AxisAlignedBB(pos).deflate(0.1));
 
             SeatEntity entity;
             if(entities.isEmpty()){
                 double seatHeight = ((SeatBlock)block).getSeatHeight();
                 entity = new SeatEntity(world, pos, seatHeight);
-                world.addEntity(entity);
+                world.addFreshEntity(entity);
             }
             else
                 entity = entities.get(0);

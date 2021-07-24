@@ -31,15 +31,15 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
         if(tile.items.isEmpty() || !(state.getBlock() instanceof BenchBlock))
             return;
 
-        Random random = new Random(tile.getPos().getX() * 11 + tile.getPos().getY() * 13 + tile.getPos().getZ() * 17);
+        Random random = new Random(tile.getBlockPos().getX() * 11 + tile.getBlockPos().getY() * 13 + tile.getBlockPos().getZ() * 17);
 
-        Direction benchDirection = state.get(BenchBlock.ROTATION);
-        Direction direction = Direction.byHorizontalIndex(tile.shape);
+        Direction benchDirection = state.getValue(BenchBlock.ROTATION);
+        Direction direction = Direction.from2DDataValue(tile.shape);
 
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5, 0.9, 0.5);
-        matrixStack.translate(0.2 * direction.getXOffset(), 0, 0.2 * direction.getZOffset());
-        matrixStack.rotate(new Quaternion(0, 180 - benchDirection.getHorizontalAngle(), 0, true));
+        matrixStack.translate(0.2 * direction.getStepX(), 0, 0.2 * direction.getStepZ());
+        matrixStack.mulPose(new Quaternion(0, 180 - benchDirection.toYRot(), 0, true));
         ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
         for(int i = 0; i < tile.items.size(); i++){
@@ -47,20 +47,20 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
             if(stack.isEmpty())
                 continue;
 
-            matrixStack.push();
-            matrixStack.rotate(new Quaternion(90, 0, 0, true));
-            matrixStack.rotate(new Quaternion(0, 0, random.nextFloat() * 360, true));
+            matrixStack.pushPose();
+            matrixStack.mulPose(new Quaternion(90, 0, 0, true));
+            matrixStack.mulPose(new Quaternion(0, 0, random.nextFloat() * 360, true));
             matrixStack.translate(0, -0.1, 0);
 
 
-            IBakedModel model = renderer.getItemModelWithOverrides(stack, tile.getWorld(), null);
-            renderer.renderItem(stack, ItemCameraTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
+            IBakedModel model = renderer.getModel(stack, tile.getLevel(), null);
+            renderer.render(stack, ItemCameraTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
 
-            matrixStack.pop();
+            matrixStack.popPose();
 
             matrixStack.translate(0, 0.03, 0);
         }
 
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 }

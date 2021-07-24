@@ -23,39 +23,39 @@ public class SeatEntity extends Entity {
     public SeatEntity(World world, BlockPos pos, double seatHeight){
         super(Benched.seat_entity, world);
         this.seatHeight = seatHeight;
-        this.setPosition(pos.getX() + 0.5, pos.getY() + seatHeight, pos.getZ() + 0.5);
+        this.setPos(pos.getX() + 0.5, pos.getY() + seatHeight, pos.getZ() + 0.5);
     }
 
     @Override
     public void tick(){
         super.tick();
 
-        if(!this.world.isRemote && (this.getPassengers().isEmpty() || !(this.world.getBlockState(this.getPosition()).getBlock() instanceof BenchBlock)))
+        if(!this.level.isClientSide && (this.getPassengers().isEmpty() || !(this.level.getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
             this.remove();
     }
 
     @Override
-    protected void registerData(){
+    protected void defineSynchedData(){
     }
 
     @Override
-    protected void readAdditional(CompoundNBT compound){
+    protected void readAdditionalSaveData(CompoundNBT compound){
         if(compound.contains("seatHeight"))
             this.seatHeight = compound.getDouble("seatHeight");
     }
 
     @Override
-    protected void writeAdditional(CompoundNBT compound){
+    protected void addAdditionalSaveData(CompoundNBT compound){
         compound.putDouble("seatHeight", this.seatHeight);
     }
 
     @Override
-    public double getMountedYOffset(){
+    public double getPassengersRidingOffset(){
         return -0.5 + this.seatHeight;
     }
 
     @Override
-    public IPacket<?> createSpawnPacket(){
+    public IPacket<?> getAddEntityPacket(){
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

@@ -3,13 +3,13 @@ package com.supermartijn642.benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
 import com.supermartijn642.benched.blocks.BenchTile;
 import com.supermartijn642.benched.seat.SeatEntity;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +39,7 @@ public class Benched {
     public static Block warped_bench;
 
     @ObjectHolder("benched:bench_tile")
-    public static TileEntityType<BenchTile> bench_tile;
+    public static BlockEntityType<BenchTile> bench_tile;
 
     @ObjectHolder("benched:seat_entity")
     public static EntityType<SeatEntity> seat_entity;
@@ -63,25 +63,25 @@ public class Benched {
         }
 
         @SubscribeEvent
-        public static void onTileRegistry(final RegistryEvent.Register<TileEntityType<?>> e){
-            e.getRegistry().register(TileEntityType.Builder.of(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench, crimson_bench, warped_bench).build(null).setRegistryName("bench_tile"));
+        public static void onTileRegistry(final RegistryEvent.Register<BlockEntityType<?>> e){
+            e.getRegistry().register(BlockEntityType.Builder.of(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench, crimson_bench, warped_bench).build(null).setRegistryName("bench_tile"));
         }
 
         @SubscribeEvent
         public static void onItemRegistry(final RegistryEvent.Register<Item> e){
-            e.getRegistry().register(new BlockItem(acacia_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(acacia_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(birch_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(birch_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(dark_oak_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(dark_oak_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(jungle_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(jungle_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(oak_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(oak_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(spruce_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(spruce_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(crimson_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(crimson_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(warped_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(warped_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(acacia_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(acacia_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(birch_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(birch_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(dark_oak_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(dark_oak_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(jungle_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(jungle_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(oak_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(oak_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(spruce_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(spruce_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(crimson_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(crimson_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(warped_bench, new Item.Properties().tab(CreativeModeTab.TAB_SEARCH)).setRegistryName(warped_bench.getRegistryName()));
         }
 
         @SubscribeEvent
         public static void onEntityRegistry(RegistryEvent.Register<EntityType<?>> e){
-            e.getRegistry().register(EntityType.Builder.of((o, world) -> new SeatEntity(world), EntityClassification.MISC).build("").setRegistryName("seat_entity"));
+            e.getRegistry().register(EntityType.Builder.of((o, world) -> new SeatEntity(world), MobCategory.MISC).build("").setRegistryName("seat_entity"));
         }
     }
 

@@ -3,13 +3,14 @@ package com.supermartijn642.benched.blocks;
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.BenchedConfig;
 import com.supermartijn642.core.block.BaseTileEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.Containers;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,8 @@ public class BenchTile extends BaseTileEntity {
     public int shape = 0;
     public NonNullList<ItemStack> items = NonNullList.create();
 
-    public BenchTile(){
-        super(Benched.bench_tile);
+    public BenchTile(BlockPos pos, BlockState state){
+        super(Benched.bench_tile, pos, state);
     }
 
     public void setOthers(List<BlockPos> others){
@@ -63,13 +64,13 @@ public class BenchTile extends BaseTileEntity {
     }
 
     public void dropItems(){
-        InventoryHelper.dropContents(this.level, this.worldPosition, this.items);
+        Containers.dropContents(this.level, this.worldPosition, this.items);
         this.items.clear();
     }
 
     @Override
-    protected CompoundNBT writeData(){
-        CompoundNBT compound = new CompoundNBT();
+    protected CompoundTag writeData(){
+        CompoundTag compound = new CompoundTag();
         if(this.others.size() >= 3){
             compound.putInt("other1X", this.others.get(0).getX());
             compound.putInt("other1Y", this.others.get(0).getY());
@@ -82,14 +83,14 @@ public class BenchTile extends BaseTileEntity {
             compound.putInt("other3Z", this.others.get(2).getZ());
         }
         compound.putInt("shape", this.shape);
-        ListNBT items = new ListNBT();
-        this.items.forEach(item -> items.add(item.save(new CompoundNBT())));
+        ListTag items = new ListTag();
+        this.items.forEach(item -> items.add(item.save(new CompoundTag())));
         compound.put("items", items);
         return compound;
     }
 
     @Override
-    protected void readData(CompoundNBT compound){
+    protected void readData(CompoundTag compound){
         this.others.clear();
         if(compound.contains("other1X"))
             this.others.add(new BlockPos(compound.getInt("other1X"), compound.getInt("other1Y"), compound.getInt("other1Z")));
@@ -99,7 +100,7 @@ public class BenchTile extends BaseTileEntity {
             this.others.add(new BlockPos(compound.getInt("other3X"), compound.getInt("other3Y"), compound.getInt("other3Z")));
         this.shape = compound.getInt("shape");
         this.items.clear();
-        ListNBT items = compound.contains("items") ? (ListNBT)compound.get("items") : new ListNBT();
-        items.forEach(tag -> this.items.add(ItemStack.of((CompoundNBT)tag)));
+        ListTag items = compound.contains("items") ? (ListTag)compound.get("items") : new ListTag();
+        items.forEach(tag -> this.items.add(ItemStack.of((CompoundTag)tag)));
     }
 }

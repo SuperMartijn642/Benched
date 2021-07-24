@@ -2,10 +2,10 @@ package com.supermartijn642.benched;
 
 import com.supermartijn642.benched.blocks.BenchTileRenderer;
 import com.supermartijn642.benched.seat.SeatEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -17,7 +17,7 @@ public class ClientProxy {
 
     @SubscribeEvent
     public static void onSetup(FMLClientSetupEvent e){
-        RenderingRegistry.registerEntityRenderingHandler(Benched.seat_entity, SeatEntityRenderer::new);
-        ClientRegistry.bindTileEntityRenderer(Benched.bench_tile, BenchTileRenderer::new);
+        EntityRenderers.register(Benched.seat_entity, SeatEntityRenderer::new);
+        BlockEntityRenderers.register(Benched.bench_tile, context -> new BenchTileRenderer());
     }
 }

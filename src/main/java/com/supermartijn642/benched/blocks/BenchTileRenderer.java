@@ -1,32 +1,27 @@
 package com.supermartijn642.benched.blocks;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.block.BlockState;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
 /**
  * Created 3/25/2021 by SuperMartijn642
  */
-public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
-
-    public BenchTileRenderer(TileEntityRendererDispatcher rendererDispatcherIn){
-        super(rendererDispatcherIn);
-    }
+public class BenchTileRenderer implements BlockEntityRenderer<BenchTile> {
 
     @Override
-    public void render(BenchTile tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay){
+    public void render(BenchTile tile, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay){
         BlockState state = tile.getBlockState();
         if(tile.items.isEmpty() || !(state.getBlock() instanceof BenchBlock))
             return;
@@ -53,8 +48,8 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
             matrixStack.translate(0, -0.1, 0);
 
 
-            IBakedModel model = renderer.getModel(stack, tile.getLevel(), null);
-            renderer.render(stack, ItemCameraTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
+            BakedModel model = renderer.getModel(stack, tile.getLevel(), null, 0);
+            renderer.render(stack, ItemTransforms.TransformType.GROUND, false, matrixStack, buffer, combinedLight, OverlayTexture.NO_OVERLAY, model);
 
             matrixStack.popPose();
 

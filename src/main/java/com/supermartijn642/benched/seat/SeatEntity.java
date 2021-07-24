@@ -2,12 +2,12 @@ package com.supermartijn642.benched.seat;
 
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 /**
  * Created 12/26/2020 by SuperMartijn642
@@ -16,11 +16,11 @@ public class SeatEntity extends Entity {
 
     private double seatHeight;
 
-    public SeatEntity(World worldIn){
+    public SeatEntity(Level worldIn){
         super(Benched.seat_entity, worldIn);
     }
 
-    public SeatEntity(World world, BlockPos pos, double seatHeight){
+    public SeatEntity(Level world, BlockPos pos, double seatHeight){
         super(Benched.seat_entity, world);
         this.seatHeight = seatHeight;
         this.setPos(pos.getX() + 0.5, pos.getY() + seatHeight, pos.getZ() + 0.5);
@@ -31,7 +31,7 @@ public class SeatEntity extends Entity {
         super.tick();
 
         if(!this.level.isClientSide && (this.getPassengers().isEmpty() || !(this.level.getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
-            this.remove();
+            this.discard();
     }
 
     @Override
@@ -39,13 +39,13 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT compound){
+    protected void readAdditionalSaveData(CompoundTag compound){
         if(compound.contains("seatHeight"))
             this.seatHeight = compound.getDouble("seatHeight");
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT compound){
+    protected void addAdditionalSaveData(CompoundTag compound){
         compound.putDouble("seatHeight", this.seatHeight);
     }
 
@@ -55,7 +55,7 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket(){
+    public Packet<?> getAddEntityPacket(){
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

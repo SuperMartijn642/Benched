@@ -29,7 +29,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class BenchBlock extends SeatBlock implements EntityBlock, SimpleWaterlog
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BenchBlock(String registryName){
-        super(Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
+        super(Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(1.5f, 6), registryName, false);
         this.registerDefaultState(this.defaultBlockState().setValue(VISIBLE, true).setValue(ROTATION, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 

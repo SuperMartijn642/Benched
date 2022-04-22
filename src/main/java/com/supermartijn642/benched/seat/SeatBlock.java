@@ -18,8 +18,8 @@ public abstract class SeatBlock extends BaseBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
-        if(!worldIn.isRemote)
+    public boolean use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
+        if(!worldIn.isClientSide)
             SeatHelper.sitPlayerDown(worldIn, pos, player);
         return true;
     }

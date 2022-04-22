@@ -21,16 +21,16 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
         if(tile.items.isEmpty() || !(state.getBlock() instanceof BenchBlock))
             return;
 
-        Random random = new Random(tile.getPos().getX() * 11 + tile.getPos().getY() * 13 + tile.getPos().getZ() * 17);
+        Random random = new Random(tile.getBlockPos().getX() * 11 + tile.getBlockPos().getY() * 13 + tile.getBlockPos().getZ() * 17);
 
-        Direction benchDirection = state.get(BenchBlock.ROTATION);
-        Direction direction = Direction.byHorizontalIndex(tile.shape);
+        Direction benchDirection = state.getValue(BenchBlock.ROTATION);
+        Direction direction = Direction.from2DDataValue(tile.shape);
 
         GlStateManager.pushMatrix();
         GlStateManager.translated(x, y, z);
         GlStateManager.translated(0.5, 0.9, 0.5);
-        GlStateManager.translated(0.2 * direction.getXOffset(), 0, 0.2 * direction.getZOffset());
-        GlStateManager.rotated(180 - benchDirection.getHorizontalAngle(), 0, 1, 0);
+        GlStateManager.translated(0.2 * direction.getStepX(), 0, 0.2 * direction.getStepZ());
+        GlStateManager.rotated(180 - benchDirection.toYRot(), 0, 1, 0);
 
         for(int i = 0; i < tile.items.size(); i++){
             ItemStack stack = tile.items.get(i);
@@ -42,7 +42,7 @@ public class BenchTileRenderer extends TileEntityRenderer<BenchTile> {
             GlStateManager.rotated(random.nextFloat() * 360, 0, 0, 1);
             GlStateManager.translated(0, -0.1, 0);
 
-            ClientUtils.getMinecraft().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.GROUND);
+            ClientUtils.getMinecraft().getItemRenderer().renderStatic(stack, ItemCameraTransforms.TransformType.GROUND);
 
             GlStateManager.popMatrix();
 

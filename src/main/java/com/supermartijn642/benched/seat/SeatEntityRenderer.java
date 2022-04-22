@@ -5,6 +5,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 /**
  * Created 12/26/2020 by SuperMartijn642
  */
@@ -13,8 +15,9 @@ public class SeatEntityRenderer extends EntityRenderer<SeatEntity> {
         super(renderManager);
     }
 
+    @Nullable
     @Override
-    public ResourceLocation getEntityTexture(SeatEntity entity){
+    protected ResourceLocation getTextureLocation(SeatEntity entity){
         return null;
     }
 

@@ -58,22 +58,22 @@ public class Benched {
 
         @SubscribeEvent
         public static void onTileRegistry(final RegistryEvent.Register<TileEntityType<?>> e){
-            e.getRegistry().register(TileEntityType.Builder.create(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench).build(null).setRegistryName("bench_tile"));
+            e.getRegistry().register(TileEntityType.Builder.of(BenchTile::new, acacia_bench, birch_bench, dark_oak_bench, jungle_bench, oak_bench, spruce_bench).build(null).setRegistryName("bench_tile"));
         }
 
         @SubscribeEvent
         public static void onItemRegistry(final RegistryEvent.Register<Item> e){
-            e.getRegistry().register(new BlockItem(acacia_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(acacia_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(birch_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(birch_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(dark_oak_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(dark_oak_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(jungle_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(jungle_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(oak_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(oak_bench.getRegistryName()));
-            e.getRegistry().register(new BlockItem(spruce_bench, new Item.Properties().group(ItemGroup.SEARCH)).setRegistryName(spruce_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(acacia_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(acacia_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(birch_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(birch_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(dark_oak_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(dark_oak_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(jungle_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(jungle_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(oak_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(oak_bench.getRegistryName()));
+            e.getRegistry().register(new BlockItem(spruce_bench, new Item.Properties().tab(ItemGroup.TAB_SEARCH)).setRegistryName(spruce_bench.getRegistryName()));
         }
 
         @SubscribeEvent
         public static void onEntityRegistry(RegistryEvent.Register<EntityType<?>> e){
-            e.getRegistry().register(EntityType.Builder.create((o, world) -> new SeatEntity(world), EntityClassification.MISC).build("").setRegistryName("seat_entity"));
+            e.getRegistry().register(EntityType.Builder.of((o, world) -> new SeatEntity(world), EntityClassification.MISC).build("").setRegistryName("seat_entity"));
         }
     }
 

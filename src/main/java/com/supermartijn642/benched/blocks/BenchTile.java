@@ -29,7 +29,7 @@ public class BenchTile extends BaseTileEntity {
 
     public void setOthers(List<BlockPos> others){
         for(BlockPos pos : others)
-            if(!pos.equals(this.pos))
+            if(!pos.equals(this.worldPosition))
                 this.others.add(pos);
         this.dataChanged();
     }
@@ -63,7 +63,7 @@ public class BenchTile extends BaseTileEntity {
     }
 
     public void dropItems(){
-        InventoryHelper.dropItems(this.world, this.pos, this.items);
+        InventoryHelper.dropContents(this.level, this.worldPosition, this.items);
         this.items.clear();
     }
 
@@ -83,7 +83,7 @@ public class BenchTile extends BaseTileEntity {
         }
         compound.putInt("shape", this.shape);
         ListNBT items = new ListNBT();
-        this.items.forEach(item -> items.add(item.write(new CompoundNBT())));
+        this.items.forEach(item -> items.add(item.save(new CompoundNBT())));
         compound.put("items", items);
         return compound;
     }
@@ -100,6 +100,6 @@ public class BenchTile extends BaseTileEntity {
         this.shape = compound.getInt("shape");
         this.items.clear();
         ListNBT items = compound.contains("items") ? (ListNBT)compound.get("items") : new ListNBT();
-        items.forEach(tag -> this.items.add(ItemStack.read((CompoundNBT)tag)));
+        items.forEach(tag -> this.items.add(ItemStack.of((CompoundNBT)tag)));
     }
 }

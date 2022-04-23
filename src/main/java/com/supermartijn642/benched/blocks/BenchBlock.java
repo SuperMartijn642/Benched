@@ -39,17 +39,17 @@ import java.util.List;
 public class BenchBlock extends SeatBlock implements IWaterLoggable {
 
     private static final VoxelShape SHAPE3 =
-        VoxelShapes.or(VoxelShapes.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
-            VoxelShapes.create(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
+        VoxelShapes.or(VoxelShapes.box(0, 0, 0, 1, 17 / 32d, 29 / 32d),
+            VoxelShapes.box(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
         SHAPE1 =
-            VoxelShapes.or(VoxelShapes.create(0, 0, 3 / 32d, 1, 17 / 32d, 1),
-                VoxelShapes.create(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
+            VoxelShapes.or(VoxelShapes.box(0, 0, 3 / 32d, 1, 17 / 32d, 1),
+                VoxelShapes.box(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
         SHAPE2 =
-            VoxelShapes.or(VoxelShapes.create(0, 0, 0, 29 / 32d, 17 / 32d, 1),
-                VoxelShapes.create(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+            VoxelShapes.or(VoxelShapes.box(0, 0, 0, 29 / 32d, 17 / 32d, 1),
+                VoxelShapes.box(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
         SHAPE4 =
-            VoxelShapes.or(VoxelShapes.create(3 / 32d, 0, 0, 1, 17 / 32d, 1),
-                VoxelShapes.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
+            VoxelShapes.or(VoxelShapes.box(3 / 32d, 0, 0, 1, 17 / 32d, 1),
+                VoxelShapes.box(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
     private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
@@ -57,20 +57,20 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BenchBlock(String registryName){
-        super(Properties.create(Material.WOOD, MaterialColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
-        this.setDefaultState(this.getDefaultState().with(VISIBLE, true).with(ROTATION, Direction.NORTH).with(WATERLOGGED, false));
+        super(Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
+        this.registerDefaultState(this.defaultBlockState().setValue(VISIBLE, true).setValue(ROTATION, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
-        if(!worldIn.isRemote){
-            ItemStack stack = player.getHeldItem(handIn);
-            TileEntity tile = worldIn.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit){
+        if(!worldIn.isClientSide){
+            ItemStack stack = player.getItemInHand(handIn);
+            TileEntity tile = worldIn.getBlockEntity(pos);
             if(stack.isEmpty()){
                 if(player.isCrouching() && tile instanceof BenchTile){
                     stack = ((BenchTile)tile).removeItem();
                     if(!stack.isEmpty()){
-                        player.setHeldItem(handIn, stack);
+                        player.setItemInHand(handIn, stack);
                         return ActionResultType.CONSUME;
                     }
                 }
@@ -80,7 +80,7 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
                 return ActionResultType.CONSUME;
             }
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override
@@ -90,98 +90,98 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context){
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
-        Direction facing = context.getPlacementHorizontalFacing();
-        if(!canBeReplaced(world, pos.offset(facing)) || !canBeReplaced(world, pos.offset(facing.rotateY())) || !canBeReplaced(world, pos.offset(facing).offset(facing.rotateY())))
+        World world = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Direction facing = context.getHorizontalDirection();
+        if(!canBeReplaced(world, pos.relative(facing)) || !canBeReplaced(world, pos.relative(facing.getClockWise())) || !canBeReplaced(world, pos.relative(facing).relative(facing.getClockWise())))
             return null;
 
-        IFluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-        return this.getDefaultState().with(ROTATION, context.getPlacementHorizontalFacing()).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
+        IFluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState().setValue(ROTATION, context.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
 
     private static boolean canBeReplaced(World world, BlockPos pos){
-        return world.isAirBlock(pos) || world.getBlockState(pos).getBlock() == Blocks.WATER;
+        return world.isEmptyBlock(pos) || world.getBlockState(pos).getBlock() == Blocks.WATER;
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
-        Direction facing = placer.getHorizontalFacing();
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
+        Direction facing = placer.getDirection();
         List<BlockPos> others = new ArrayList<>(4);
         List<BenchTile> tiles = new ArrayList<>(4);
         others.add(pos);
-        TileEntity tile = worldIn.getTileEntity(pos);
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateY().getHorizontalIndex();
+            ((BenchTile)tile).shape = facing.getClockWise().get2DDataValue();
         }
-        BlockPos pos1 = pos.offset(facing);
+        BlockPos pos1 = pos.relative(facing);
         others.add(pos1);
         IFluidState fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
-        tile = worldIn.getTileEntity(pos1);
+        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        tile = worldIn.getBlockEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateY().getHorizontalIndex();
+            ((BenchTile)tile).shape = facing.getClockWise().get2DDataValue();
         }
-        pos1 = pos.offset(facing.rotateY());
+        pos1 = pos.relative(facing.getClockWise());
         others.add(pos1);
         fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
-        tile = worldIn.getTileEntity(pos1);
+        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        tile = worldIn.getBlockEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateYCCW().getHorizontalIndex();
+            ((BenchTile)tile).shape = facing.getCounterClockWise().get2DDataValue();
         }
-        pos1 = pos.offset(facing).offset(facing.rotateY());
+        pos1 = pos.relative(facing).relative(facing.getClockWise());
         others.add(pos1);
         fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockState(pos1, state.with(BenchBlock.VISIBLE, false).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER));
-        tile = worldIn.getTileEntity(pos1);
+        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        tile = worldIn.getBlockEntity(pos1);
         if(tile instanceof BenchTile){
             tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateYCCW().getHorizontalIndex();
+            ((BenchTile)tile).shape = facing.getCounterClockWise().get2DDataValue();
         }
 
         for(BenchTile tile1 : tiles){
             tile1.setOthers(others);
-            tile1.markDirty();
+            tile1.setChanged();
         }
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving){
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving){
         if(state.hasTileEntity() && (state.getBlock() != newState.getBlock() || !newState.hasTileEntity())){
-            TileEntity tile = worldIn.getTileEntity(pos);
+            TileEntity tile = worldIn.getBlockEntity(pos);
             if(tile instanceof BenchTile){
                 ((BenchTile)tile).dropItems();
                 for(BlockPos other : ((BenchTile)tile).getOthers()){
                     BlockState state1 = worldIn.getBlockState(other);
                     if(state1.getBlock() == this){
-                        worldIn.setBlockState(other,
-                            state1.get(WATERLOGGED) ? Blocks.WATER.getDefaultState() : Blocks.AIR.getDefaultState());
+                        worldIn.setBlockAndUpdate(other,
+                            state1.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState());
                     }
                 }
             }
         }
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+        super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context){
-        TileEntity tile = worldIn.getTileEntity(pos);
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if(tile instanceof BenchTile)
             return SHAPES[((BenchTile)tile).shape];
         return VoxelShapes.empty();
     }
 
     @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos){
+    public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos){
         return VoxelShapes.empty();
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos){
+    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos){
         return 1F;
     }
 
@@ -190,8 +190,8 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state){
-        return state.get(VISIBLE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;
+    public BlockRenderType getRenderShape(BlockState state){
+        return state.getValue(VISIBLE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;
     }
 
     @Override
@@ -205,19 +205,19 @@ public class BenchBlock extends SeatBlock implements IWaterLoggable {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block,BlockState> builder){
+    protected void createBlockStateDefinition(StateContainer.Builder<Block,BlockState> builder){
         builder.add(VISIBLE, ROTATION, WATERLOGGED);
     }
 
     @Override
     public IFluidState getFluidState(BlockState state){
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos){
-        if(stateIn.get(WATERLOGGED))
-            worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos){
+        if(stateIn.getValue(WATERLOGGED))
+            worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 }

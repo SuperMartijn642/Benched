@@ -50,9 +50,9 @@ public class Benched {
 
     public Benched(){
         runRegistry(ForgeRegistries.BLOCKS, RegistryEvents::onBlockRegistry);
-        runRegistry(ForgeRegistries.BLOCK_ENTITIES, RegistryEvents::onTileRegistry);
+        runRegistry(ForgeRegistries.BLOCK_ENTITY_TYPES, RegistryEvents::onTileRegistry);
         runRegistry(ForgeRegistries.ITEMS, RegistryEvents::onItemRegistry);
-        runRegistry(ForgeRegistries.ENTITIES, RegistryEvents::onEntityRegistry);
+        runRegistry(ForgeRegistries.ENTITY_TYPES, RegistryEvents::onEntityRegistry);
 
         BenchedConfig.init();
     }

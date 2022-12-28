@@ -1,6 +1,0 @@
-{
-  "parent": "benched:bench",
-  "textures": {
-    "main": "benched:birch_bench"
-  }
-}

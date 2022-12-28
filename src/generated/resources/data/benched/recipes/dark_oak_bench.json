@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "B B"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "B": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "benched:dark_oak_bench"
+  }
+}

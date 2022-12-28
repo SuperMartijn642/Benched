@@ -1,6 +1,0 @@
-{
-  "parent": "benched:bench",
-  "textures": {
-    "main": "benched:dark_oak_bench"
-  }
-}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "B B"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:crimson_planks"
+    },
+    "B": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "benched:crimson_bench"
+  }
+}

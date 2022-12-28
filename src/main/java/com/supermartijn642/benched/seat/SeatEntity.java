@@ -16,12 +16,12 @@ public class SeatEntity extends Entity {
 
     private double seatHeight;
 
-    public SeatEntity(Level worldIn){
-        super(Benched.seat_entity, worldIn);
+    public SeatEntity(Level level){
+        super(Benched.seat_entity, level);
     }
 
-    public SeatEntity(Level world, BlockPos pos, double seatHeight){
-        super(Benched.seat_entity, world);
+    public SeatEntity(Level level, BlockPos pos, double seatHeight){
+        super(Benched.seat_entity, level);
         this.seatHeight = seatHeight;
         this.setPos(pos.getX() + 0.5, pos.getY() + seatHeight, pos.getZ() + 0.5);
     }

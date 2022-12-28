@@ -1,10 +1,12 @@
 package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.seat.SeatBlock;
+import com.supermartijn642.core.block.BlockProperties;
+import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.block.EntityHoldingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -12,7 +14,10 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -23,65 +28,64 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created 7/10/2020 by SuperMartijn642
  */
-public class BenchBlock extends SeatBlock implements EntityBlock, SimpleWaterloggedBlock {
+public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleWaterloggedBlock {
 
-    private static final VoxelShape SHAPE3 =
-        Shapes.or(Shapes.box(0, 0, 0, 1, 17 / 32d, 29 / 32d),
-            Shapes.box(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
-        SHAPE1 =
-            Shapes.or(Shapes.box(0, 0, 3 / 32d, 1, 17 / 32d, 1),
-                Shapes.box(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
+    private static final BlockShape SHAPE1 =
+        BlockShape.or(BlockShape.create(0, 0, 3 / 32d, 1, 17 / 32d, 1),
+            BlockShape.create(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
         SHAPE2 =
-            Shapes.or(Shapes.box(0, 0, 0, 29 / 32d, 17 / 32d, 1),
-                Shapes.box(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+            BlockShape.or(BlockShape.create(0, 0, 0, 29 / 32d, 17 / 32d, 1),
+                BlockShape.create(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+        SHAPE3 =
+            BlockShape.or(BlockShape.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
+                BlockShape.create(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
         SHAPE4 =
-            Shapes.or(Shapes.box(3 / 32d, 0, 0, 1, 17 / 32d, 1),
-                Shapes.box(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
-    private static final VoxelShape[] SHAPES = new VoxelShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
+            BlockShape.or(BlockShape.create(3 / 32d, 0, 0, 1, 17 / 32d, 1),
+                BlockShape.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
+    private static final BlockShape[] SHAPES = new BlockShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
     public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
     public static final EnumProperty<Direction> ROTATION = EnumProperty.create("rotation", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public BenchBlock(String registryName){
-        super(Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN).strength(1.5f, 6), registryName, false);
+    public BenchBlock(){
+        super(false, BlockProperties.create(Material.WOOD, MaterialColor.COLOR_BROWN).destroyTime(1.5f).explosionResistance(6));
         this.registerDefaultState(this.defaultBlockState().setValue(VISIBLE, true).setValue(ROTATION, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit){
-        if(!worldIn.isClientSide){
-            ItemStack stack = player.getItemInHand(handIn);
-            BlockEntity tile = worldIn.getBlockEntity(pos);
+    protected InteractionFeedback interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, Direction hitSide, Vec3 hitLocation){
+        if(!level.isClientSide){
+            ItemStack stack = player.getItemInHand(hand);
+            BlockEntity entity = level.getBlockEntity(pos);
             if(stack.isEmpty()){
-                if(player.isCrouching() && tile instanceof BenchTile){
-                    stack = ((BenchTile)tile).removeItem();
+                if(player.isCrouching() && entity instanceof BenchBlockEntity){
+                    stack = ((BenchBlockEntity)entity).removeItem();
                     if(!stack.isEmpty()){
-                        player.setItemInHand(handIn, stack);
-                        return InteractionResult.CONSUME;
+                        player.setItemInHand(hand, stack);
+                        return InteractionFeedback.CONSUME;
                     }
                 }
             }else{
-                if(tile instanceof BenchTile)
-                    ((BenchTile)tile).addItem(stack);
-                return InteractionResult.CONSUME;
+                if(entity instanceof BenchBlockEntity)
+                    ((BenchBlockEntity)entity).addItem(stack);
+                return InteractionFeedback.CONSUME;
             }
         }
-        return super.use(state, worldIn, pos, player, handIn, hit);
+        return super.interact(state, level, pos, player, hand, hitSide, hitLocation);
     }
 
     @Override
@@ -91,88 +95,88 @@ public class BenchBlock extends SeatBlock implements EntityBlock, SimpleWaterlog
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context){
-        Level world = context.getLevel();
+        Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Direction facing = context.getHorizontalDirection();
-        if(!canBeReplaced(world, pos.relative(facing)) || !canBeReplaced(world, pos.relative(facing.getClockWise())) || !canBeReplaced(world, pos.relative(facing).relative(facing.getClockWise())))
+        if(!canBeReplaced(level, pos.relative(facing)) || !canBeReplaced(level, pos.relative(facing.getClockWise())) || !canBeReplaced(level, pos.relative(facing).relative(facing.getClockWise())))
             return null;
 
-        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return this.defaultBlockState().setValue(ROTATION, context.getHorizontalDirection()).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
+        FluidState fluid = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState().setValue(ROTATION, context.getHorizontalDirection()).setValue(WATERLOGGED, fluid.getType() == Fluids.WATER);
     }
 
-    private static boolean canBeReplaced(Level world, BlockPos pos){
-        return world.isEmptyBlock(pos) || world.getBlockState(pos).getBlock() == Blocks.WATER;
+    private static boolean canBeReplaced(Level level, BlockPos pos){
+        return level.isEmptyBlock(pos) || level.getBlockState(pos).getBlock() == Blocks.WATER;
     }
 
     @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
         Direction facing = placer.getDirection();
         List<BlockPos> others = new ArrayList<>(4);
-        List<BenchTile> tiles = new ArrayList<>(4);
+        List<BenchBlockEntity> entities = new ArrayList<>(4);
         others.add(pos);
-        BlockEntity tile = worldIn.getBlockEntity(pos);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.getClockWise().get2DDataValue();
+        BlockEntity entity = level.getBlockEntity(pos);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.getClockWise().get2DDataValue();
         }
         BlockPos pos1 = pos.relative(facing);
         others.add(pos1);
-        FluidState fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
-        tile = worldIn.getBlockEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.getClockWise().get2DDataValue();
+        FluidState fluidstate = level.getFluidState(pos1);
+        level.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        entity = level.getBlockEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.getClockWise().get2DDataValue();
         }
         pos1 = pos.relative(facing.getClockWise());
         others.add(pos1);
-        fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
-        tile = worldIn.getBlockEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.getCounterClockWise().get2DDataValue();
+        fluidstate = level.getFluidState(pos1);
+        level.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        entity = level.getBlockEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.getCounterClockWise().get2DDataValue();
         }
         pos1 = pos.relative(facing).relative(facing.getClockWise());
         others.add(pos1);
-        fluidstate = worldIn.getFluidState(pos1);
-        worldIn.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
-        tile = worldIn.getBlockEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.getCounterClockWise().get2DDataValue();
+        fluidstate = level.getFluidState(pos1);
+        level.setBlockAndUpdate(pos1, state.setValue(BenchBlock.VISIBLE, false).setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER));
+        entity = level.getBlockEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.getCounterClockWise().get2DDataValue();
         }
 
-        for(BenchTile tile1 : tiles){
-            tile1.setOthers(others);
-            tile1.setChanged();
+        for(BenchBlockEntity bench : entities){
+            bench.setOthers(others);
+            bench.setChanged();
         }
     }
 
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving){
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving){
         if(state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())){
-            BlockEntity tile = worldIn.getBlockEntity(pos);
-            if(tile instanceof BenchTile){
-                ((BenchTile)tile).dropItems();
-                for(BlockPos other : ((BenchTile)tile).getOthers()){
-                    BlockState state1 = worldIn.getBlockState(other);
+            BlockEntity entity = level.getBlockEntity(pos);
+            if(entity instanceof BenchBlockEntity){
+                ((BenchBlockEntity)entity).dropItems();
+                for(BlockPos other : ((BenchBlockEntity)entity).getOthers()){
+                    BlockState state1 = level.getBlockState(other);
                     if(state1.getBlock() == this){
-                        worldIn.setBlockAndUpdate(other,
+                        level.setBlockAndUpdate(other,
                             state1.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState());
                     }
                 }
             }
         }
-        super.onRemove(state, worldIn, pos, newState, isMoving);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context){
-        BlockEntity tile = worldIn.getBlockEntity(pos);
-        if(tile instanceof BenchTile)
-            return SHAPES[((BenchTile)tile).shape];
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context){
+        BlockEntity entity = level.getBlockEntity(pos);
+        if(entity instanceof BenchBlockEntity)
+            return SHAPES[((BenchBlockEntity)entity).shape].getUnderlying();
         return Shapes.empty();
     }
 
@@ -195,10 +199,9 @@ public class BenchBlock extends SeatBlock implements EntityBlock, SimpleWaterlog
         return state.getValue(VISIBLE) ? RenderShape.MODEL : RenderShape.INVISIBLE;
     }
 
-    @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state){
-        return new BenchTile(pos, state);
+    public BlockEntity createNewBlockEntity(BlockPos pos, BlockState state){
+        return new BenchBlockEntity(pos, state);
     }
 
     @Override
@@ -212,9 +215,9 @@ public class BenchBlock extends SeatBlock implements EntityBlock, SimpleWaterlog
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos){
-        if(stateIn.getValue(WATERLOGGED))
-            worldIn.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
-        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos){
+        if(state.getValue(WATERLOGGED))
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
     }
 }

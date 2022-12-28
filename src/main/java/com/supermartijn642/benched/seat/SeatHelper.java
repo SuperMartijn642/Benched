@@ -13,16 +13,16 @@ import java.util.List;
  */
 public class SeatHelper {
 
-    public static void sitPlayerDown(Level world, BlockPos pos, Player player){
-        Block block = world.getBlockState(pos).getBlock();
+    public static void sitPlayerDown(Level level, BlockPos pos, Player player){
+        Block block = level.getBlockState(pos).getBlock();
         if(block instanceof SeatBlock){
-            List<SeatEntity> entities = world.getEntitiesOfClass(SeatEntity.class, new AABB(pos).deflate(0.1));
+            List<SeatEntity> entities = level.getEntitiesOfClass(SeatEntity.class, new AABB(pos).deflate(0.1));
 
             SeatEntity entity;
             if(entities.isEmpty()){
                 double seatHeight = ((SeatBlock)block).getSeatHeight();
-                entity = new SeatEntity(world, pos, seatHeight);
-                world.addFreshEntity(entity);
+                entity = new SeatEntity(level, pos, seatHeight);
+                level.addFreshEntity(entity);
             }
             else
                 entity = entities.get(0);
@@ -31,5 +31,4 @@ public class SeatHelper {
                 player.startRiding(entity);
         }
     }
-
 }

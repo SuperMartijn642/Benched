@@ -16,7 +16,7 @@ public class BenchedLanguageGenerator extends LanguageGenerator {
     @Override
     public void generate(){
         for(BenchType type : BenchType.values()){
-            this.block(type.getBlock(), type.getTranslation() + "  Picnic Bench");
+            this.block(type.getBlock(), type.getTranslation() + " Picnic Bench");
         }
     }
 }

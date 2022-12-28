@@ -1,8 +1,8 @@
 {
   "variants": {
-    "rotation=north": {
+    "rotation=east": {
       "model": "benched:jungle_bench",
-      "y": 90
+      "y": 180
     },
     "rotation=south": {
       "model": "benched:jungle_bench",
@@ -11,9 +11,9 @@
     "rotation=west": {
       "model": "benched:jungle_bench"
     },
-    "rotation=east": {
+    "rotation=north": {
       "model": "benched:jungle_bench",
-      "y": 180
+      "y": 90
     }
   }
 }

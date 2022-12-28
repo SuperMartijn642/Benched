@@ -16,6 +16,6 @@ public class BenchedTagGenerator extends TagGenerator {
     @Override
     public void generate(){
         for(BenchType type : BenchType.values())
-            this.blockMineableWithPickaxe().add(type.getBlock());
+            this.blockMineableWithAxe().add(type.getBlock());
     }
 }

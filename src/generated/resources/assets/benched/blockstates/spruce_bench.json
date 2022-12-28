@@ -7,13 +7,13 @@
     "rotation=west": {
       "model": "benched:spruce_bench"
     },
-    "rotation=north": {
-      "model": "benched:spruce_bench",
-      "y": 90
-    },
     "rotation=east": {
       "model": "benched:spruce_bench",
       "y": 180
+    },
+    "rotation=north": {
+      "model": "benched:spruce_bench",
+      "y": 90
     }
   }
 }

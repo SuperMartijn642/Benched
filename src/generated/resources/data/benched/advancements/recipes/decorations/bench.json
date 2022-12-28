@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "display": {
+    "icon": {
+      "item": "benched:bench"
+    },
+    "title": {
+      "translate": "benched.advancement.recipes/decorations/bench.title"
+    },
+    "description": {
+      "translate": "benched.advancement.recipes/decorations/bench.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "benched:bench"
+      }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:oak_planks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "recipe_condition"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "benched:bench"
+    ]
+  }
+}

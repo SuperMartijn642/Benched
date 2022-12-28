@@ -21,7 +21,7 @@ public class BenchedModelGenerator extends ModelGenerator {
                 .parent("bench_transformed")
                 .texture("main", type.getIdentifier() + "_bench");
             // Item model
-            this.model("item/" + type.getIdentifier() + "_bench")
+            this.model("item/" + (type == BenchType.OAK ? "bench" : type.getIdentifier() + "_bench"))
                 .parent(type.getIdentifier() + "_bench");
         }
     }

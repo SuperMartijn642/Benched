@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "benched:birch_bench",
+    "benched:dark_oak_bench",
+    "benched:jungle_bench",
+    "benched:spruce_bench",
+    "benched:acacia_bench",
+    "benched:bench"
+  ]
+}

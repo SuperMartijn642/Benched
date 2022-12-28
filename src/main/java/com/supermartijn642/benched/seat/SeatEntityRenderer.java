@@ -1,23 +1,21 @@
 package com.supermartijn642.benched.seat;
 
+import com.supermartijn642.core.ClientUtils;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nullable;
 
 /**
  * Created 12/26/2020 by SuperMartijn642
  */
 public class SeatEntityRenderer extends EntityRenderer<SeatEntity> {
-    public SeatEntityRenderer(EntityRendererManager renderManager){
-        super(renderManager);
+
+    public SeatEntityRenderer(){
+        super(ClientUtils.getMinecraft().getEntityRenderDispatcher());
     }
 
-    @Nullable
     @Override
-    protected ResourceLocation getTextureLocation(SeatEntity entity){
+    public ResourceLocation getTextureLocation(SeatEntity entity){
         return null;
     }
 

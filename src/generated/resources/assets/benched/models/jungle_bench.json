@@ -1,0 +1,6 @@
+{
+  "parent": "benched:bench_transformed",
+  "textures": {
+    "main": "benched:jungle_bench"
+  }
+}

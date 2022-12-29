@@ -1,12 +1,12 @@
 package com.supermartijn642.benched.blocks;
 
+import com.supermartijn642.core.item.BaseBlockItem;
+import com.supermartijn642.core.item.ItemProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -18,40 +18,31 @@ import net.minecraft.world.World;
 /**
  * Created 1/10/2021 by SuperMartijn642
  */
-public class BenchItemBlock extends ItemBlock {
+public class BenchItemBlock extends BaseBlockItem {
 
-    public BenchItemBlock(Block bench){
-        super(bench);
-        this.setRegistryName(bench.getRegistryName());
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
+    public BenchItemBlock(Block bench, ItemProperties properties){
+        super(bench, properties);
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-        Block block = iblockstate.getBlock();
-
-        if(!block.isReplaceable(worldIn, pos)){
+    public EnumActionResult onItemUse(EntityPlayer player, World level, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+        if(!level.getBlockState(pos).getBlock().isReplaceable(level, pos))
             pos = pos.offset(facing);
-        }
 
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack stack = player.getHeldItem(hand);
+        if(!stack.isEmpty() && player.canPlayerEdit(pos, facing, stack) && level.mayPlace(this.block, pos, false, facing, player)){
+            int metadata = this.getMetadata(stack.getMetadata());
+            IBlockState state = this.block.getStateForPlacement(level, pos, facing, hitX, hitY, hitZ, metadata, player, hand);
 
-        if(!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack) && worldIn.mayPlace(this.block, pos, false, facing, player)){
-            int i = this.getMetadata(itemstack.getMetadata());
-            IBlockState iblockstate1 = this.block.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, i, player, hand);
-
-            if(iblockstate1.getBlock() != Blocks.AIR && placeBlockAt(itemstack, player, worldIn, pos, facing, hitX, hitY, hitZ, iblockstate1)){
-                iblockstate1 = worldIn.getBlockState(pos);
-                SoundType soundtype = iblockstate1.getBlock().getSoundType(iblockstate1, worldIn, pos, player);
-                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.shrink(1);
+            if(state.getBlock() != Blocks.AIR && this.placeBlockAt(stack, player, level, pos, facing, hitX, hitY, hitZ, state)){
+                state = level.getBlockState(pos);
+                SoundType soundType = state.getBlock().getSoundType(state, level, pos, player);
+                level.playSound(player, pos, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+                stack.shrink(1);
             }
 
-            return iblockstate1.getBlock() == Blocks.AIR ? EnumActionResult.FAIL : EnumActionResult.SUCCESS;
-        }else{
+            return state.getBlock() == Blocks.AIR ? EnumActionResult.FAIL : EnumActionResult.SUCCESS;
+        }else
             return EnumActionResult.FAIL;
-        }
     }
-
 }

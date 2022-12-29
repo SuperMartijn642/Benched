@@ -13,23 +13,21 @@ import java.util.List;
  */
 public class SeatHelper {
 
-    public static void sitPlayerDown(World world, BlockPos pos, EntityPlayer player){
-        Block block = world.getBlockState(pos).getBlock();
+    public static void sitPlayerDown(World level, BlockPos pos, EntityPlayer player){
+        Block block = level.getBlockState(pos).getBlock();
         if(block instanceof SeatBlock){
-            List<SeatEntity> entities = world.getEntitiesWithinAABB(SeatEntity.class, new AxisAlignedBB(pos).shrink(0.1));
+            List<SeatEntity> entities = level.getEntitiesWithinAABB(SeatEntity.class, new AxisAlignedBB(pos).shrink(0.1));
 
             SeatEntity entity;
             if(entities.isEmpty()){
                 double seatHeight = ((SeatBlock)block).getSeatHeight();
-                entity = new SeatEntity(world, pos, seatHeight);
-                world.spawnEntity(entity);
-            }
-            else
+                entity = new SeatEntity(level, pos, seatHeight);
+                level.spawnEntity(entity);
+            }else
                 entity = entities.get(0);
 
             if(entity.getPassengers().isEmpty())
                 player.startRiding(entity);
         }
     }
-
 }

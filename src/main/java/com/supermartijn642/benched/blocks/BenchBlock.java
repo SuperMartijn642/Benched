@@ -1,7 +1,9 @@
 package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.seat.SeatBlock;
-import com.supermartijn642.core.ToolType;
+import com.supermartijn642.core.block.BlockProperties;
+import com.supermartijn642.core.block.BlockShape;
+import com.supermartijn642.core.block.EntityHoldingBlock;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -9,7 +11,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -20,6 +21,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,53 +33,50 @@ import java.util.List;
 /**
  * Created 7/10/2020 by SuperMartijn642
  */
-public class BenchBlock extends SeatBlock {
+public class BenchBlock extends SeatBlock implements EntityHoldingBlock {
 
-    private static final AxisAlignedBB SHAPE3 =
-        new AxisAlignedBB(0, 0, 0, 1, 17 / 32d, 29 / 32d).union(
-            new AxisAlignedBB(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
-        SHAPE1 =
-            new AxisAlignedBB(0, 0, 3 / 32d, 1, 17 / 32d, 1).union(
-                new AxisAlignedBB(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
+    private static final BlockShape SHAPE1 =
+        BlockShape.or(BlockShape.create(0, 0, 3 / 32d, 1, 17 / 32d, 1),
+            BlockShape.create(0, 0, 7 / 16d, 1, 28.5 / 32d, 1)),
         SHAPE2 =
-            new AxisAlignedBB(0, 0, 0, 29 / 32d, 17 / 32d, 1).union(
-                new AxisAlignedBB(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+            BlockShape.or(BlockShape.create(0, 0, 0, 29 / 32d, 17 / 32d, 1),
+                BlockShape.create(0, 0, 0, 9 / 16d, 28.5 / 32d, 1)),
+        SHAPE3 =
+            BlockShape.or(BlockShape.create(0, 0, 0, 1, 17 / 32d, 29 / 32d),
+                BlockShape.create(0, 0, 0, 1, 28.5 / 32d, 9 / 16d)),
         SHAPE4 =
-            new AxisAlignedBB(3 / 32d, 0, 0, 1, 17 / 32d, 1).union(
-                new AxisAlignedBB(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
-    private static final AxisAlignedBB[] SHAPES = new AxisAlignedBB[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
+            BlockShape.or(BlockShape.create(3 / 32d, 0, 0, 1, 17 / 32d, 1),
+                BlockShape.create(7 / 16d, 0, 0, 1, 28.5 / 32d, 1));
+    private static final BlockShape[] SHAPES = new BlockShape[]{SHAPE1, SHAPE2, SHAPE3, SHAPE4};
 
     public static final PropertyBool VISIBLE = PropertyBool.create("visible");
     public static final PropertyEnum<EnumFacing> ROTATION = PropertyEnum.create("rotation", EnumFacing.class, EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.SOUTH, EnumFacing.WEST);
 
-    public BenchBlock(String registryName){
-        super(Properties.create(Material.WOOD, MapColor.BROWN).hardnessAndResistance(1.5f, 6).harvestLevel(0).harvestTool(ToolType.AXE), registryName, false);
-        this.setUnlocalizedName("benched." + registryName);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
-
+    public BenchBlock(){
+        super(false, BlockProperties.create(Material.WOOD, MapColor.BROWN).destroyTime(1.5f).explosionResistance(6));
         this.setDefaultState(this.getDefaultState().withProperty(VISIBLE, true).withProperty(ROTATION, EnumFacing.NORTH));
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand handIn, EnumFacing facing, float hitX, float hitY, float hitZ){
-        if(!worldIn.isRemote){
-            ItemStack stack = player.getHeldItem(handIn);
-            TileEntity tile = worldIn.getTileEntity(pos);
+    protected InteractionFeedback interact(IBlockState state, World level, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing hitSide, Vec3d hitLocation){
+        if(!level.isRemote){
+            ItemStack stack = player.getHeldItem(hand);
+            TileEntity entity = level.getTileEntity(pos);
             if(stack.isEmpty()){
-                if(player.isSneaking() && tile instanceof BenchTile){
-                    stack = ((BenchTile)tile).removeItem();
+                if(player.isSneaking() && entity instanceof BenchBlockEntity){
+                    stack = ((BenchBlockEntity)entity).removeItem();
                     if(!stack.isEmpty()){
-                        player.setHeldItem(handIn, stack);
-                        return true;
+                        player.setHeldItem(hand, stack);
+                        return InteractionFeedback.CONSUME;
                     }
                 }
             }else{
-                if(tile instanceof BenchTile)
-                    ((BenchTile)tile).addItem(stack);
-                return true;
+                if(entity instanceof BenchBlockEntity)
+                    ((BenchBlockEntity)entity).addItem(stack);
+                return InteractionFeedback.CONSUME;
             }
         }
-        return super.onBlockActivated(worldIn, pos, state, player, handIn, facing, hitX, hitY, hitZ);
+        return super.interact(state, level, pos, player, hand, hitSide, hitLocation);
     }
 
     @Override
@@ -86,71 +85,77 @@ public class BenchBlock extends SeatBlock {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand){
-        if(!world.isAirBlock(pos.offset(placer.getHorizontalFacing())) || !world.isAirBlock(pos.offset(placer.getHorizontalFacing().rotateY())) || !world.isAirBlock(pos.offset(placer.getHorizontalFacing()).offset(placer.getHorizontalFacing().rotateY())))
-            return Blocks.AIR.getDefaultState();
-        return this.getDefaultState().withProperty(ROTATION, placer.getHorizontalFacing());
+    public IBlockState getStateForPlacement(World level, BlockPos pos, EnumFacing hitSide, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand){
+        EnumFacing facing = placer.getHorizontalFacing();
+        if(!canBeReplaced(level, pos.offset(facing)) || !canBeReplaced(level, pos.offset(facing.rotateY())) || !canBeReplaced(level, pos.offset(facing).offset(facing.rotateY())))
+            return null;
+
+        return this.getDefaultState().withProperty(ROTATION, facing);
+    }
+
+    private static boolean canBeReplaced(World level, BlockPos pos){
+        return level.isAirBlock(pos) || level.getBlockState(pos).getBlock().isReplaceable(level, pos);
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
+    public void onBlockPlacedBy(World level, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
         EnumFacing facing = placer.getHorizontalFacing();
         List<BlockPos> others = new ArrayList<>(4);
-        List<BenchTile> tiles = new ArrayList<>(4);
+        List<BenchBlockEntity> entities = new ArrayList<>(4);
         others.add(pos);
-        TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateY().getHorizontalIndex();
+        TileEntity entity = level.getTileEntity(pos);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.rotateY().getHorizontalIndex();
         }
         BlockPos pos1 = pos.offset(facing);
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
-        tile = worldIn.getTileEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateY().getHorizontalIndex();
+        level.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
+        entity = level.getTileEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.rotateY().getHorizontalIndex();
         }
         pos1 = pos.offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
-        tile = worldIn.getTileEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateYCCW().getHorizontalIndex();
+        level.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
+        entity = level.getTileEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.rotateYCCW().getHorizontalIndex();
         }
         pos1 = pos.offset(facing).offset(facing.rotateY());
         others.add(pos1);
-        worldIn.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
-        tile = worldIn.getTileEntity(pos1);
-        if(tile instanceof BenchTile){
-            tiles.add((BenchTile)tile);
-            ((BenchTile)tile).shape = facing.rotateYCCW().getHorizontalIndex();
+        level.setBlockState(pos1, state.withProperty(BenchBlock.VISIBLE, false));
+        entity = level.getTileEntity(pos1);
+        if(entity instanceof BenchBlockEntity){
+            entities.add((BenchBlockEntity)entity);
+            ((BenchBlockEntity)entity).shape = facing.rotateYCCW().getHorizontalIndex();
         }
 
-        for(BenchTile tile1 : tiles){
-            tile1.setOthers(others);
-            tile1.markDirty();
+        for(BenchBlockEntity bench : entities){
+            bench.setOthers(others);
+            bench.markDirty();
         }
     }
 
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state){
-        TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BenchTile){
-            ((BenchTile)tile).dropItems();
-            for(BlockPos other : ((BenchTile)tile).getOthers())
-                if(worldIn.getBlockState(other).getBlock() == this)
-                    worldIn.setBlockState(other, Blocks.AIR.getDefaultState());
+    public void breakBlock(World level, BlockPos pos, IBlockState state){
+        TileEntity entity = level.getTileEntity(pos);
+        if(entity instanceof BenchBlockEntity){
+            ((BenchBlockEntity)entity).dropItems();
+            for(BlockPos other : ((BenchBlockEntity)entity).getOthers())
+                if(level.getBlockState(other).getBlock() == this)
+                    level.setBlockState(other, Blocks.AIR.getDefaultState());
         }
-        super.breakBlock(worldIn, pos, state);
+        super.breakBlock(level, pos, state);
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos){
-        TileEntity tile = source.getTileEntity(pos);
-        if(tile instanceof BenchTile)
-            return SHAPES[((BenchTile)tile).shape];
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess level, BlockPos pos){
+        TileEntity entity = level.getTileEntity(pos);
+        if(entity instanceof BenchBlockEntity)
+            return SHAPES[((BenchBlockEntity)entity).shape].simplify();
         return new AxisAlignedBB(0, 0, 0, 0, 0, 0);
     }
 
@@ -181,13 +186,8 @@ public class BenchBlock extends SeatBlock {
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state){
-        return true;
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state){
-        return new BenchTile();
+    public TileEntity createNewBlockEntity(){
+        return new BenchBlockEntity();
     }
 
     @Override

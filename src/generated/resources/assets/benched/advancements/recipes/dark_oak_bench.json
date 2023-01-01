@@ -5,10 +5,10 @@
       "item": "benched:dark_oak_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/decorations/dark_oak_bench.title"
+      "translate": "benched.advancement.recipes/dark_oak_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/decorations/dark_oak_bench.description"
+      "translate": "benched.advancement.recipes/dark_oak_bench.description"
     },
     "frame": "task",
     "show_toast": false,

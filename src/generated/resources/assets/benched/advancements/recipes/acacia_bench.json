@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:bench"
+      "item": "benched:acacia_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/decorations/bench.title"
+      "translate": "benched.advancement.recipes/acacia_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/decorations/bench.description"
+      "translate": "benched.advancement.recipes/acacia_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:bench"
+        "recipe": "benched:acacia_bench"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "item": "minecraft:planks",
-            "data": 0
+            "data": 4
           }
         ]
       }
@@ -42,7 +42,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:bench"
+      "benched:acacia_bench"
     ]
   }
 }

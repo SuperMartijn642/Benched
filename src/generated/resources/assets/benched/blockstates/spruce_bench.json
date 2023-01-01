@@ -1,19 +1,19 @@
 {
   "variants": {
-    "rotation\u003dnorth": {
+    "rotation=east": {
       "model": "benched:spruce_bench",
-      "y": 90
+      "y": 180
     },
-    "rotation\u003dsouth": {
+    "rotation=west": {
+      "model": "benched:spruce_bench"
+    },
+    "rotation=south": {
       "model": "benched:spruce_bench",
       "y": 270
     },
-    "rotation\u003dwest": {
-      "model": "benched:spruce_bench"
-    },
-    "rotation\u003deast": {
+    "rotation=north": {
       "model": "benched:spruce_bench",
-      "y": 180
+      "y": 90
     }
   }
 }

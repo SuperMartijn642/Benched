@@ -4,16 +4,16 @@
       "model": "benched:crimson_bench",
       "y": 270
     },
-    "rotation=east": {
-      "model": "benched:crimson_bench",
-      "y": 180
+    "rotation=west": {
+      "model": "benched:crimson_bench"
     },
     "rotation=north": {
       "model": "benched:crimson_bench",
       "y": 90
     },
-    "rotation=west": {
-      "model": "benched:crimson_bench"
+    "rotation=east": {
+      "model": "benched:crimson_bench",
+      "y": 180
     }
   }
 }

@@ -1,5 +1,9 @@
 {
   "variants": {
+    "rotation=north": {
+      "model": "benched:acacia_bench",
+      "y": 90
+    },
     "rotation=west": {
       "model": "benched:acacia_bench"
     },
@@ -10,10 +14,6 @@
     "rotation=south": {
       "model": "benched:acacia_bench",
       "y": 270
-    },
-    "rotation=north": {
-      "model": "benched:acacia_bench",
-      "y": 90
     }
   }
 }

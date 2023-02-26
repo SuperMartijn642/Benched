@@ -61,6 +61,6 @@ public enum BenchType {
     }
 
     public void registerItem(RegistrationHandler.Helper<Item> helper){
-        this.item = helper.register(this == OAK ? "bench" : this.getIdentifier() + "_bench", new BaseBlockItem(this.block, ItemProperties.create().group(CreativeItemGroup.getDecoration())));
+        this.item = helper.register(this == OAK ? "bench" : this.getIdentifier() + "_bench", new BaseBlockItem(this.block, ItemProperties.create().group(CreativeItemGroup.getFunctionalBlocks())));
     }
 }

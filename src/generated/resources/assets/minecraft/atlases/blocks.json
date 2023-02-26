@@ -1,0 +1,36 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "benched:oak_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:warped_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:dark_oak_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:birch_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:spruce_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:crimson_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:acacia_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:jungle_bench"
+    }
+  ]
+}

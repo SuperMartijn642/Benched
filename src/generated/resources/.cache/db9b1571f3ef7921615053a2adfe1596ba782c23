@@ -1,0 +1,17 @@
+// 1.19.3	2023-01-03T00:41:27.0318471	Resource Generator 6
+f89b3d967450e04d38b96d30e7945854e8f177cb data/benched/advancements/recipes/misc/acacia_bench.json
+3ffbb8ace780e5ddac7297d9fb7950b4dc1c88d9 data/benched/advancements/recipes/misc/bench.json
+225c99300dabc66c92027c1def6fe247e63e0e0a data/benched/advancements/recipes/misc/birch_bench.json
+58352ad675996572f46db6e76785c623847f2c5b data/benched/advancements/recipes/misc/crimson_bench.json
+cd40f20109314382baf55fa749e6a121e8802e9b data/benched/advancements/recipes/misc/dark_oak_bench.json
+ae5ea177af8cc4b33eba703d10a616d54cd5db9d data/benched/advancements/recipes/misc/jungle_bench.json
+da8f9bc3728885d6d8784b3a6e62bf408a03099f data/benched/advancements/recipes/misc/spruce_bench.json
+c8c362165e0d89adde6d784e9e8c50940516c57f data/benched/advancements/recipes/misc/warped_bench.json
+08d3a64d68439f3c07c8d45216bf21e6a4d5b8f9 data/benched/recipes/acacia_bench.json
+74da6d074415155ad9b6ffe690c205067c4a132a data/benched/recipes/bench.json
+9e725cd16a3527b4ebc0a633848150fd6e6a69f4 data/benched/recipes/birch_bench.json
+f970b12949987aadc6e160b4fa9b293e03f2d56f data/benched/recipes/crimson_bench.json
+3a56ef9eea228d96bb239d893661c826b0906612 data/benched/recipes/dark_oak_bench.json
+3e548caf25ae007e54c4dbe785e57880bec20899 data/benched/recipes/jungle_bench.json
+c645e800a356d1edd138da5303b73d759fde72ed data/benched/recipes/spruce_bench.json
+0c01224f0d607d1f08764c3cf90d9c76f501735a data/benched/recipes/warped_bench.json

@@ -1,5 +1,8 @@
 {
   "variants": {
+    "rotation=west": {
+      "model": "benched:oak_bench"
+    },
     "rotation=south": {
       "model": "benched:oak_bench",
       "y": 270
@@ -11,9 +14,6 @@
     "rotation=north": {
       "model": "benched:oak_bench",
       "y": 90
-    },
-    "rotation=west": {
-      "model": "benched:oak_bench"
     }
   }
 }

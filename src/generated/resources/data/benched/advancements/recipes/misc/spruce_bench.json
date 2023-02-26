@@ -5,10 +5,10 @@
       "item": "benched:spruce_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/decorations/spruce_bench.title"
+      "translate": "benched.advancement.recipes/misc/spruce_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/decorations/spruce_bench.description"
+      "translate": "benched.advancement.recipes/misc/spruce_bench.description"
     },
     "frame": "task",
     "show_toast": false,

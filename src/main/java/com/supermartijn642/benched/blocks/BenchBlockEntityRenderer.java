@@ -1,7 +1,6 @@
 package com.supermartijn642.benched.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,6 +11,8 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.AxisAngle4d;
+import org.joml.Quaternionf;
 
 import java.util.Random;
 
@@ -34,7 +35,7 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
         poseStack.pushPose();
         poseStack.translate(0.5, 0.9, 0.5);
         poseStack.translate(0.2 * direction.getStepX(), 0, 0.2 * direction.getStepZ());
-        poseStack.mulPose(new Quaternion(0, 180 - benchDirection.toYRot(), 0, true));
+        poseStack.mulPose(new Quaternionf(new AxisAngle4d(Math.toRadians(180 - benchDirection.toYRot()), 0, 1, 0)));
         ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
         for(int i = 0; i < entity.items.size(); i++){
@@ -43,8 +44,8 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
                 continue;
 
             poseStack.pushPose();
-            poseStack.mulPose(new Quaternion(90, 0, 0, true));
-            poseStack.mulPose(new Quaternion(0, 0, random.nextFloat() * 360, true));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4d(Math.PI / 2, 1, 0, 0)));
+            poseStack.mulPose(new Quaternionf(new AxisAngle4d(random.nextFloat() * 2 * Math.PI, 0, 0, 1)));
             poseStack.translate(0, -0.1, 0);
 
 

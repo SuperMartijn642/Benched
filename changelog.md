@@ -1,3 +1,2 @@
 ### Benched 1.2.2
-- Updated to core library 1.1
-- Added all the benches to the 'Decorations' creative tab
+- Initial release for Minecraft 1.19.3

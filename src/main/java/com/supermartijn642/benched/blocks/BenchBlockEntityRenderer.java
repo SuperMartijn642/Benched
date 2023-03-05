@@ -1,7 +1,6 @@
 package com.supermartijn642.benched.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Quaternionf;
 
 import java.util.Random;
 
@@ -30,8 +30,7 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
             return;
 
         BlockPos pos = entity.getBlockPos();
-        long seed = pos.getX() * 11L + pos.getY() * 13L + pos.getZ() * 17L;
-        RANDOM.setSeed(seed);
+        RANDOM.setSeed(pos.getX() * 11L + pos.getY() * 13L + pos.getZ() * 17L);
         RANDOM.nextDouble();
 
         Direction.Axis benchAxis = state.getValue(BenchBlock.AXIS);
@@ -50,9 +49,8 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
                 continue;
 
             poseStack.pushPose();
-            poseStack.mulPose(new Quaternion(90, 0, 0, true));
-            float random = RANDOM.nextFloat();
-            poseStack.mulPose(new Quaternion(0, 0, random * 360, true));
+            poseStack.mulPose(new Quaternionf().setAngleAxis(Math.PI / 2,1,0,0));
+            poseStack.mulPose(new Quaternionf().setAngleAxis(RANDOM.nextDouble() * Math.PI * 2,0,0,1));
             poseStack.translate(0, -0.1, 0);
 
 

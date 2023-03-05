@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:acacia_bench"
+      "item": "benched:warped_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/decorations/acacia_bench.title"
+      "translate": "benched.advancement.recipes/misc/warped_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/decorations/acacia_bench.description"
+      "translate": "benched.advancement.recipes/misc/warped_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:acacia_bench"
+        "recipe": "benched:warped_bench"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:acacia_planks"
+              "minecraft:warped_planks"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:acacia_bench"
+      "benched:warped_bench"
     ]
   }
 }

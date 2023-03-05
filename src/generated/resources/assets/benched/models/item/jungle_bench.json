@@ -1,3 +1,8 @@
 {
-  "parent": "benched:jungle_bench"
+  "parent": "benched:bench_item",
+  "textures": {
+    "stripped": "minecraft:block/stripped_jungle_log",
+    "logs": "minecraft:block/jungle_log",
+    "planks": "minecraft:block/jungle_planks"
+  }
 }

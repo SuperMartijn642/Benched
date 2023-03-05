@@ -1,3 +1,8 @@
 {
-  "parent": "benched:oak_bench"
+  "parent": "benched:bench_item",
+  "textures": {
+    "stripped": "minecraft:block/stripped_oak_log",
+    "logs": "minecraft:block/oak_log",
+    "planks": "minecraft:block/oak_planks"
+  }
 }

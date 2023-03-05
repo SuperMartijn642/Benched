@@ -17,23 +17,27 @@ import java.util.function.Supplier;
  */
 public enum BenchType {
 
-    ACACIA("Acacia", () -> Items.ACACIA_PLANKS),
-    BIRCH("Birch", () -> Items.BIRCH_PLANKS),
-    CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS),
-    DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS),
-    JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS),
-    OAK("Oak", () -> Items.OAK_PLANKS),
-    SPRUCE("Spruce", () -> Items.SPRUCE_PLANKS),
-    WARPED("Warped", () -> Items.WARPED_PLANKS);
+    ACACIA("Acacia", () -> Items.ACACIA_PLANKS, "minecraft:block/acacia_log", "minecraft:block/acacia_planks", "minecraft:block/stripped_acacia_log"),
+    BIRCH("Birch", () -> Items.BIRCH_PLANKS, "minecraft:block/birch_log", "minecraft:block/birch_planks", "minecraft:block/stripped_birch_log"),
+    CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS, "minecraft:block/crimson_stem", "minecraft:block/crimson_planks", "minecraft:block/stripped_crimson_stem"),
+    DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS, "minecraft:block/dark_oak_log", "minecraft:block/dark_oak_planks", "minecraft:block/stripped_dark_oak_log"),
+    JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS, "minecraft:block/jungle_log", "minecraft:block/jungle_planks", "minecraft:block/stripped_jungle_log"),
+    OAK("Oak", () -> Items.OAK_PLANKS, "minecraft:block/oak_log", "minecraft:block/oak_planks", "minecraft:block/stripped_oak_log"),
+    SPRUCE("Spruce", () -> Items.SPRUCE_PLANKS, "minecraft:block/spruce_log", "minecraft:block/spruce_planks", "minecraft:block/stripped_spruce_log"),
+    WARPED("Warped", () -> Items.WARPED_PLANKS, "minecraft:block/warped_stem", "minecraft:block/warped_planks", "minecraft:block/stripped_warped_stem");
 
     private final String translation;
     private final Supplier<Item> craftingIngredient;
+    private final String logsTexture, planksTexture, strippedTexture;
     private BenchBlock block;
     private BaseBlockItem item;
 
-    BenchType(String translation, Supplier<Item> craftingIngredient){
+    BenchType(String translation, Supplier<Item> craftingIngredient, String logsTexture, String planksTexture, String strippedTexture){
         this.translation = translation;
         this.craftingIngredient = craftingIngredient;
+        this.logsTexture = logsTexture;
+        this.planksTexture = planksTexture;
+        this.strippedTexture = strippedTexture;
     }
 
     public String getIdentifier(){
@@ -46,6 +50,18 @@ public enum BenchType {
 
     public Item getCraftingIngredient(){
         return this.craftingIngredient.get();
+    }
+
+    public String getLogsTexture(){
+        return this.logsTexture;
+    }
+
+    public String getPlanksTexture(){
+        return this.planksTexture;
+    }
+
+    public String getStrippedTexture(){
+        return this.strippedTexture;
     }
 
     public BaseBlock getBlock(){

@@ -1,6 +1,8 @@
 {
-  "parent": "benched:bench_transformed",
+  "parent": "benched:bench",
   "textures": {
-    "main": "benched:warped_bench"
+    "stripped": "minecraft:block/stripped_warped_stem",
+    "logs": "minecraft:block/warped_stem",
+    "planks": "minecraft:block/warped_planks"
   }
 }

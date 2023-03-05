@@ -3,7 +3,7 @@ package com.supermartijn642.benched.generators;
 import com.supermartijn642.benched.BenchType;
 import com.supermartijn642.core.generator.RecipeGenerator;
 import com.supermartijn642.core.generator.ResourceCache;
-import net.minecraftforge.common.Tags;
+import net.minecraft.world.item.Items;
 
 /**
  * Created 28/12/2022 by SuperMartijn642
@@ -22,7 +22,7 @@ public class BenchedRecipeGenerator extends RecipeGenerator {
                 .pattern("ABA")
                 .pattern("B B")
                 .input('A', type.getCraftingIngredient())
-                .input('B', Tags.Items.RODS_WOODEN)
+                .input('B', Items.STICK)
                 .unlockedBy(type.getCraftingIngredient());
         }
     }

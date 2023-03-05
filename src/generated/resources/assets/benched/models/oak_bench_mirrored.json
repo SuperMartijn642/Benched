@@ -1,5 +1,5 @@
 {
-  "parent": "benched:bench",
+  "parent": "benched:bench_mirrored",
   "textures": {
     "stripped": "minecraft:block/stripped_oak_log",
     "logs": "minecraft:block/oak_log",

@@ -8,19 +8,16 @@ import com.supermartijn642.core.block.BaseBlockEntityType;
 import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
 import com.supermartijn642.core.registry.RegistrationHandler;
 import com.supermartijn642.core.registry.RegistryEntryAcceptor;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.Arrays;
 
 /**
  * Created 7/7/2020 by SuperMartijn642
  */
-@Mod("benched")
-public class Benched {
+public class Benched implements ModInitializer {
 
     @RegistryEntryAcceptor(namespace = "benched", identifier = "bench_tile", registry = RegistryEntryAcceptor.Registry.BLOCK_ENTITY_TYPES)
     public static BaseBlockEntityType<BenchBlockEntity> bench_tile;
@@ -28,11 +25,11 @@ public class Benched {
     @RegistryEntryAcceptor(namespace = "benched", identifier = "seat_entity", registry = RegistryEntryAcceptor.Registry.ENTITY_TYPES)
     public static EntityType<SeatEntity> seat_entity;
 
-    public Benched(){
+    @Override
+    public void onInitialize(){
         BenchedConfig.init();
 
         register();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BenchedClient::register);
         registerGenerators();
     }
 
@@ -49,7 +46,7 @@ public class Benched {
             return BaseBlockEntityType.create(BenchBlockEntity::new, blocks);
         });
         // Seat entity
-        handler.registerEntityType("seat_entity", () -> EntityType.Builder.of((type, level) -> new SeatEntity(level), MobCategory.MISC).build(""));
+        handler.registerEntityType("seat_entity", () -> EntityType.Builder.of((type, level) -> new SeatEntity(level), MobCategory.MISC).sized(0, 0).build(""));
     }
 
     private static void registerGenerators(){

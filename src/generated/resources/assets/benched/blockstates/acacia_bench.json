@@ -1,17 +1,32 @@
 {
   "variants": {
-    "rotation=east": {
+    "axis=z,part=low_x_high_z": {
+      "model": "benched:acacia_bench_mirrored"
+    },
+    "axis=z,part=low_x_low_z": {
+      "model": "benched:acacia_bench"
+    },
+    "axis=x,part=high_x_high_z": {
+      "model": "benched:acacia_bench_mirrored",
+      "y": 270
+    },
+    "axis=z,part=high_x_low_z": {
+      "model": "benched:acacia_bench_mirrored",
+      "y": 180
+    },
+    "axis=z,part=high_x_high_z": {
       "model": "benched:acacia_bench",
       "y": 180
     },
-    "rotation=west": {
-      "model": "benched:acacia_bench"
+    "axis=x,part=low_x_low_z": {
+      "model": "benched:acacia_bench_mirrored",
+      "y": 90
     },
-    "rotation=south": {
+    "axis=x,part=low_x_high_z": {
       "model": "benched:acacia_bench",
       "y": 270
     },
-    "rotation=north": {
+    "axis=x,part=high_x_low_z": {
       "model": "benched:acacia_bench",
       "y": 90
     }

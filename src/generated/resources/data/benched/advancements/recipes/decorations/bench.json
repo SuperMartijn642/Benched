@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:jungle_bench"
+      "item": "benched:bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/misc/jungle_bench.title"
+      "translate": "benched.advancement.recipes/decorations/bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/misc/jungle_bench.description"
+      "translate": "benched.advancement.recipes/decorations/bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:jungle_bench"
+        "recipe": "benched:bench"
       }
     },
     "recipe_condition": {
@@ -28,7 +28,7 @@
         "items": [
           {
             "items": [
-              "minecraft:jungle_planks"
+              "minecraft:oak_planks"
             ]
           }
         ]
@@ -43,7 +43,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:jungle_bench"
+      "benched:bench"
     ]
   }
 }

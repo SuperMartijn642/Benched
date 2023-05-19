@@ -3,6 +3,8 @@ package com.supermartijn642.benched.seat;
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -50,5 +52,10 @@ public class SeatEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound){
         compound.putDouble("seatHeight", this.seatHeight);
+    }
+
+    @Override
+    public Packet<?> getAddEntityPacket(){
+        return new ClientboundAddEntityPacket(this);
     }
 }

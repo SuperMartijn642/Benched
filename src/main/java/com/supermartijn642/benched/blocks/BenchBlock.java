@@ -18,6 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -26,8 +27,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -44,8 +44,8 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
         BlockShape.createBlockShape(8, 0, 0, 16, 15, 16));
     private static final BlockShape SHAPE_MIRRORED = SHAPE_REGULAR.flip(Direction.Axis.X);
     private static final BlockShape[][] SHAPES = new BlockShape[][]{
-        {SHAPE_REGULAR.rotate(Direction.Axis.Y),SHAPE_MIRRORED.rotate(Direction.Axis.Y),SHAPE_MIRRORED.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y).rotate(Direction.Axis.Y),SHAPE_REGULAR.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y).rotate(Direction.Axis.Y)},
-        {SHAPE_MIRRORED.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y),SHAPE_REGULAR,SHAPE_REGULAR.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y),SHAPE_MIRRORED}
+        {SHAPE_REGULAR.rotate(Direction.Axis.Y), SHAPE_MIRRORED.rotate(Direction.Axis.Y), SHAPE_MIRRORED.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y).rotate(Direction.Axis.Y), SHAPE_REGULAR.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y).rotate(Direction.Axis.Y)},
+        {SHAPE_MIRRORED.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y), SHAPE_REGULAR, SHAPE_REGULAR.rotate(Direction.Axis.Y).rotate(Direction.Axis.Y), SHAPE_MIRRORED}
     };
 
     public static final EnumProperty<Direction.Axis> AXIS = EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
@@ -53,7 +53,7 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BenchBlock(){
-        super(false, BlockProperties.create(Material.WOOD, MaterialColor.COLOR_BROWN).destroyTime(1.5f).explosionResistance(6));
+        super(false, BlockProperties.create().mapColor(MapColor.COLOR_BROWN).sound(SoundType.WOOD).destroyTime(1.5f).explosionResistance(6));
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.X).setValue(PART, Part.LOW_X_LOW_Z).setValue(WATERLOGGED, false));
     }
 

@@ -1,34 +1,34 @@
 {
   "variants": {
-    "axis=z,part=high_x_high_z": {
-      "model": "benched:crimson_bench",
-      "y": 180
-    },
-    "axis=z,part=high_x_low_z": {
-      "model": "benched:crimson_bench_mirrored",
-      "y": 180
-    },
-    "axis=x,part=low_x_high_z": {
-      "model": "benched:crimson_bench",
-      "y": 270
-    },
-    "axis=z,part=low_x_high_z": {
-      "model": "benched:crimson_bench_mirrored"
-    },
-    "axis=x,part=high_x_high_z": {
-      "model": "benched:crimson_bench_mirrored",
-      "y": 270
-    },
-    "axis=x,part=low_x_low_z": {
+    "part=low_x_low_z,axis=x": {
       "model": "benched:crimson_bench_mirrored",
       "y": 90
     },
-    "axis=z,part=low_x_low_z": {
+    "part=low_x_high_z,axis=x": {
+      "model": "benched:crimson_bench",
+      "y": 270
+    },
+    "part=high_x_low_z,axis=x": {
+      "model": "benched:crimson_bench",
+      "y": 90
+    },
+    "part=high_x_high_z,axis=x": {
+      "model": "benched:crimson_bench_mirrored",
+      "y": 270
+    },
+    "part=low_x_low_z,axis=z": {
       "model": "benched:crimson_bench"
     },
-    "axis=x,part=high_x_low_z": {
+    "part=low_x_high_z,axis=z": {
+      "model": "benched:crimson_bench_mirrored"
+    },
+    "part=high_x_low_z,axis=z": {
+      "model": "benched:crimson_bench_mirrored",
+      "y": 180
+    },
+    "part=high_x_high_z,axis=z": {
       "model": "benched:crimson_bench",
-      "y": 90
+      "y": 180
     }
   }
 }

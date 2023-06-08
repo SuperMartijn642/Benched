@@ -31,7 +31,7 @@ public class SeatEntity extends Entity {
     public void tick(){
         super.tick();
 
-        if(!this.level.isClientSide && (this.getPassengers().isEmpty() || !(this.level.getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
+        if(!this.level().isClientSide && (this.getPassengers().isEmpty() || !(this.level().getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
             this.discard();
     }
 

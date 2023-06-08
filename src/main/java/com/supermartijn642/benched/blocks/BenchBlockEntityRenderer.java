@@ -4,11 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.AxisAngle4d;
@@ -50,7 +50,7 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
 
 
             BakedModel model = renderer.getModel(stack, entity.getLevel(), null, 0);
-            renderer.render(stack, ItemTransforms.TransformType.GROUND, false, poseStack, bufferSource, combinedLight, OverlayTexture.NO_OVERLAY, model);
+            renderer.render(stack, ItemDisplayContext.GROUND, false, poseStack, bufferSource, combinedLight, OverlayTexture.NO_OVERLAY, model);
 
             poseStack.popPose();
 

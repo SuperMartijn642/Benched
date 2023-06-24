@@ -18,7 +18,9 @@ import java.util.function.Supplier;
 public enum BenchType {
 
     ACACIA("Acacia", () -> Items.ACACIA_PLANKS),
+    BAMBOO("Bamboo", () -> Items.BAMBOO),
     BIRCH("Birch", () -> Items.BIRCH_PLANKS),
+    CHERRY("Cherry", () -> Items.CHERRY_PLANKS),
     CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS),
     DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS),
     JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS),

@@ -1,5 +1,9 @@
 {
   "variants": {
+    "rotation=north": {
+      "model": "benched:crimson_bench",
+      "y": 90
+    },
     "rotation=east": {
       "model": "benched:crimson_bench",
       "y": 180
@@ -7,10 +11,6 @@
     "rotation=south": {
       "model": "benched:crimson_bench",
       "y": 270
-    },
-    "rotation=north": {
-      "model": "benched:crimson_bench",
-      "y": 90
     },
     "rotation=west": {
       "model": "benched:crimson_bench"

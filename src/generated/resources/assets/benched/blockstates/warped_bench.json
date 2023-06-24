@@ -1,9 +1,5 @@
 {
   "variants": {
-    "rotation=south": {
-      "model": "benched:warped_bench",
-      "y": 270
-    },
     "rotation=north": {
       "model": "benched:warped_bench",
       "y": 90
@@ -11,6 +7,10 @@
     "rotation=east": {
       "model": "benched:warped_bench",
       "y": 180
+    },
+    "rotation=south": {
+      "model": "benched:warped_bench",
+      "y": 270
     },
     "rotation=west": {
       "model": "benched:warped_bench"

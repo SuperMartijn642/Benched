@@ -1,16 +1,16 @@
 {
   "variants": {
-    "rotation=south": {
+    "rotation=north": {
       "model": "benched:birch_bench",
-      "y": 270
+      "y": 90
     },
     "rotation=east": {
       "model": "benched:birch_bench",
       "y": 180
     },
-    "rotation=north": {
+    "rotation=south": {
       "model": "benched:birch_bench",
-      "y": 90
+      "y": 270
     },
     "rotation=west": {
       "model": "benched:birch_bench"

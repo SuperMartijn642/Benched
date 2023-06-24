@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "rotation=north": {
+      "model": "benched:mangrove_bench",
+      "y": 90
+    },
+    "rotation=east": {
+      "model": "benched:mangrove_bench",
+      "y": 180
+    },
+    "rotation=south": {
+      "model": "benched:mangrove_bench",
+      "y": 270
+    },
+    "rotation=west": {
+      "model": "benched:mangrove_bench"
+    }
+  }
+}

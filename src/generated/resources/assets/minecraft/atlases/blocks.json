@@ -10,6 +10,10 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "benched:cherry_bench"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "benched:dark_oak_bench"
     },
     {
@@ -30,7 +34,15 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "benched:mangrove_bench"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "benched:jungle_bench"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "benched:bamboo_bench"
     }
   ]
 }

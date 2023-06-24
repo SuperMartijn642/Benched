@@ -1,0 +1,49 @@
+{
+  "parent": "minecraft:recipes/root",
+  "display": {
+    "icon": {
+      "item": "benched:cherry_bench"
+    },
+    "title": {
+      "translate": "benched.advancement.recipes/misc/cherry_bench.title"
+    },
+    "description": {
+      "translate": "benched.advancement.recipes/misc/cherry_bench.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "benched:cherry_bench"
+      }
+    },
+    "recipe_condition": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cherry_planks"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "recipe_condition"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "benched:cherry_bench"
+    ]
+  }
+}

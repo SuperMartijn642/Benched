@@ -18,7 +18,9 @@ import java.util.function.Supplier;
 public enum BenchType {
 
     ACACIA("Acacia", () -> Items.ACACIA_PLANKS, "minecraft:block/acacia_log", "minecraft:block/acacia_planks", "minecraft:block/stripped_acacia_log"),
+    BAMBOO("Bamboo", () -> Items.BIRCH_PLANKS, "minecraft:block/bamboo_block", "minecraft:block/bamboo_planks", "minecraft:block/stripped_bamboo_block"),
     BIRCH("Birch", () -> Items.BIRCH_PLANKS, "minecraft:block/birch_log", "minecraft:block/birch_planks", "minecraft:block/stripped_birch_log"),
+    CHERRY("Cherry", () -> Items.CRIMSON_PLANKS, "minecraft:block/cherry_log", "minecraft:block/cherry_planks", "minecraft:block/stripped_cherry_log"),
     CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS, "minecraft:block/crimson_stem", "minecraft:block/crimson_planks", "minecraft:block/stripped_crimson_stem"),
     DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS, "minecraft:block/dark_oak_log", "minecraft:block/dark_oak_planks", "minecraft:block/stripped_dark_oak_log"),
     JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS, "minecraft:block/jungle_log", "minecraft:block/jungle_planks", "minecraft:block/stripped_jungle_log"),

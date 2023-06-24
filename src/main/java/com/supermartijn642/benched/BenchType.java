@@ -22,6 +22,7 @@ public enum BenchType {
     CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS, "minecraft:block/crimson_stem", "minecraft:block/crimson_planks", "minecraft:block/stripped_crimson_stem"),
     DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS, "minecraft:block/dark_oak_log", "minecraft:block/dark_oak_planks", "minecraft:block/stripped_dark_oak_log"),
     JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS, "minecraft:block/jungle_log", "minecraft:block/jungle_planks", "minecraft:block/stripped_jungle_log"),
+    MANGROVE("Mangrove", () -> Items.JUNGLE_PLANKS, "minecraft:block/mangrove_log", "minecraft:block/mangrove_planks", "minecraft:block/stripped_mangrove_log"),
     OAK("Oak", () -> Items.OAK_PLANKS, "minecraft:block/oak_log", "minecraft:block/oak_planks", "minecraft:block/stripped_oak_log"),
     SPRUCE("Spruce", () -> Items.SPRUCE_PLANKS, "minecraft:block/spruce_log", "minecraft:block/spruce_planks", "minecraft:block/stripped_spruce_log"),
     WARPED("Warped", () -> Items.WARPED_PLANKS, "minecraft:block/warped_stem", "minecraft:block/warped_planks", "minecraft:block/stripped_warped_stem");

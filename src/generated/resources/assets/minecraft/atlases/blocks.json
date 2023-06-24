@@ -6,15 +6,15 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/stripped_spruce_log"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "minecraft:block/birch_log"
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/dark_oak_log"
+      "resource": "minecraft:block/stripped_spruce_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/cherry_planks"
     },
     {
       "type": "minecraft:single",
@@ -22,11 +22,27 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/dark_oak_planks"
+      "resource": "minecraft:block/dark_oak_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/stripped_cherry_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/bamboo_block"
     },
     {
       "type": "minecraft:single",
       "resource": "minecraft:block/jungle_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/stripped_mangrove_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/dark_oak_planks"
     },
     {
       "type": "minecraft:single",
@@ -38,11 +54,11 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/spruce_log"
+      "resource": "minecraft:block/stripped_acacia_log"
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/stripped_acacia_log"
+      "resource": "minecraft:block/spruce_log"
     },
     {
       "type": "minecraft:single",
@@ -54,6 +70,10 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "minecraft:block/stripped_bamboo_block"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "minecraft:block/stripped_oak_log"
     },
     {
@@ -62,7 +82,15 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "minecraft:block/cherry_log"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "minecraft:block/stripped_dark_oak_log"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/bamboo_planks"
     },
     {
       "type": "minecraft:single",
@@ -74,11 +102,15 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "minecraft:block/warped_planks"
+      "resource": "minecraft:block/mangrove_log"
     },
     {
       "type": "minecraft:single",
       "resource": "minecraft:block/oak_planks"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/warped_planks"
     },
     {
       "type": "minecraft:single",
@@ -87,6 +119,10 @@
     {
       "type": "minecraft:single",
       "resource": "minecraft:block/stripped_warped_stem"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:block/mangrove_planks"
     },
     {
       "type": "minecraft:single",

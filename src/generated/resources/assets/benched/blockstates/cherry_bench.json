@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "part=low_x_low_z,axis=x": {
+      "model": "benched:cherry_bench_mirrored",
+      "y": 90
+    },
+    "part=low_x_high_z,axis=x": {
+      "model": "benched:cherry_bench",
+      "y": 270
+    },
+    "part=high_x_low_z,axis=x": {
+      "model": "benched:cherry_bench",
+      "y": 90
+    },
+    "part=high_x_high_z,axis=x": {
+      "model": "benched:cherry_bench_mirrored",
+      "y": 270
+    },
+    "part=low_x_low_z,axis=z": {
+      "model": "benched:cherry_bench"
+    },
+    "part=low_x_high_z,axis=z": {
+      "model": "benched:cherry_bench_mirrored"
+    },
+    "part=high_x_low_z,axis=z": {
+      "model": "benched:cherry_bench_mirrored",
+      "y": 180
+    },
+    "part=high_x_high_z,axis=z": {
+      "model": "benched:cherry_bench",
+      "y": 180
+    }
+  }
+}

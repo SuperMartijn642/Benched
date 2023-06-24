@@ -22,6 +22,7 @@ public enum BenchType {
     CRIMSON("Crimson", () -> Items.CRIMSON_PLANKS),
     DARK_OAK("Dark Oak", () -> Items.DARK_OAK_PLANKS),
     JUNGLE("Jungle", () -> Items.JUNGLE_PLANKS),
+    MANGROVE("Mangrove", () -> Items.MANGROVE_PLANKS),
     OAK("Oak", () -> Items.OAK_PLANKS),
     SPRUCE("Spruce", () -> Items.SPRUCE_PLANKS),
     WARPED("Warped", () -> Items.WARPED_PLANKS);

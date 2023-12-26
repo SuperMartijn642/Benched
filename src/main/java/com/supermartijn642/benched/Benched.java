@@ -3,6 +3,7 @@ package com.supermartijn642.benched;
 import com.supermartijn642.benched.blocks.BenchBlockEntity;
 import com.supermartijn642.benched.generators.*;
 import com.supermartijn642.benched.seat.SeatEntity;
+import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.block.BaseBlock;
 import com.supermartijn642.core.block.BaseBlockEntityType;
 import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
@@ -10,9 +11,7 @@ import com.supermartijn642.core.registry.RegistrationHandler;
 import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.Mod;
 
 import java.util.Arrays;
 
@@ -32,7 +31,8 @@ public class Benched {
         BenchedConfig.init();
 
         register();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BenchedClient::register);
+        if(CommonUtils.getEnvironmentSide().isClient())
+            BenchedClient.register();
         registerGenerators();
     }
 

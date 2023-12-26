@@ -1,4 +1,4 @@
-// 1.20	2023-06-24T21:12:21.2512881	Core Lib Generators
+// 1.20.4	2023-12-26T22:40:48.2489261	Core Lib Generators
 34e6e79480da227a8aba2c0079c461cc6ad1a166 assets/benched/blockstates/acacia_bench.json
 21263684a4f0f5dbe7f0103fc736eaada9750ecf assets/benched/blockstates/bamboo_bench.json
 8b68c9f65082aac67ce2d754be363a069e798335 assets/benched/blockstates/bench.json
@@ -45,17 +45,17 @@ ae5ea177af8cc4b33eba703d10a616d54cd5db9d data/benched/advancements/recipes/misc/
 98068605d0d7dc39db7eff93345a89dc8d3447cb data/benched/advancements/recipes/misc/mangrove_bench.json
 da8f9bc3728885d6d8784b3a6e62bf408a03099f data/benched/advancements/recipes/misc/spruce_bench.json
 c8c362165e0d89adde6d784e9e8c50940516c57f data/benched/advancements/recipes/misc/warped_bench.json
-a703a922be41579bd81310abc0049408ac8385bf data/benched/loot_tables/blocks/acacia_bench.json
-13bff7b1dd311343e6b28e60529f262d6147ae87 data/benched/loot_tables/blocks/bamboo_bench.json
-bf72949be030f0f98bd0417773d3c2aab0781dfc data/benched/loot_tables/blocks/bench.json
-883cb1741ccb3f4e01641fdc3429ad7240c1d1dd data/benched/loot_tables/blocks/birch_bench.json
-405b69a239b0cc09ea39db60ff4768a66e2eebde data/benched/loot_tables/blocks/cherry_bench.json
-10c0b2f0f704fb56692eabcac833f5afa5f6809d data/benched/loot_tables/blocks/crimson_bench.json
-670e6d94c715c4112fb5697c92f09ebf043a3f34 data/benched/loot_tables/blocks/dark_oak_bench.json
-29c47e3117bc6938329b468124159a3a22c6b1d9 data/benched/loot_tables/blocks/jungle_bench.json
-645ccbfc8e4bbaadfb556d88858a27c6a1e9ca9d data/benched/loot_tables/blocks/mangrove_bench.json
-c2f390166348bb135f6d1627046d5aa087ac91fe data/benched/loot_tables/blocks/spruce_bench.json
-443744455308eb9d6ba794eb13eb25e93254fcfa data/benched/loot_tables/blocks/warped_bench.json
+a10af17da101290734683cc8ba9b66bfa3fbe7a6 data/benched/loot_tables/blocks/acacia_bench.json
+29c17eb590b70de1e65da27765642ef8b1af92a2 data/benched/loot_tables/blocks/bamboo_bench.json
+de33b3aa2e11d7067238a5a7e3e4a9a935a59154 data/benched/loot_tables/blocks/bench.json
+a8175c1cb27d1a55442d3b0d7207ce3bc92b5c35 data/benched/loot_tables/blocks/birch_bench.json
+7f83ea947b4dc23ff92b8abecab85f12144fee2d data/benched/loot_tables/blocks/cherry_bench.json
+4bc250c9eada5b10bbb54daf778da223960c8cdd data/benched/loot_tables/blocks/crimson_bench.json
+95dc7bd3391fbef30763fc429798daccd7e3396a data/benched/loot_tables/blocks/dark_oak_bench.json
+27df5f742c33bc46add9652f20dad8b125ca4593 data/benched/loot_tables/blocks/jungle_bench.json
+eaf491baa00e3dd2e890ec4c55b7d0219cc1ecc8 data/benched/loot_tables/blocks/mangrove_bench.json
+a9b9a464ca9ce026f65014510130aaea9574ae7f data/benched/loot_tables/blocks/spruce_bench.json
+d8d111877e71049d2ca0cf53a748b6b5b871bd91 data/benched/loot_tables/blocks/warped_bench.json
 08d3a64d68439f3c07c8d45216bf21e6a4d5b8f9 data/benched/recipes/acacia_bench.json
 3d4844fac4cca1bf6ff14e1e38cf504ed6140a57 data/benched/recipes/bamboo_bench.json
 74da6d074415155ad9b6ffe690c205067c4a132a data/benched/recipes/bench.json

@@ -1,5 +1,5 @@
 {
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "model": "benched:models/bench.obj",
   "flip-v": true,
   "detectCullableFaces": false,

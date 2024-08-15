@@ -7,13 +7,13 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:jungle_planks"
+      "item": "minecraft:spruce_planks"
     },
     "B": {
-      "item": "minecraft:stick"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "id": "benched:jungle_bench"
+    "id": "benched:spruce_bench"
   }
 }

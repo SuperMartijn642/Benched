@@ -10,7 +10,7 @@
       "item": "minecraft:crimson_planks"
     },
     "B": {
-      "item": "minecraft:stick"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {

@@ -7,13 +7,13 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:warped_planks"
+      "item": "minecraft:birch_planks"
     },
     "B": {
-      "item": "minecraft:stick"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "id": "benched:warped_bench"
+    "id": "benched:bamboo_bench"
   }
 }

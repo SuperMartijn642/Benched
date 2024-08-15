@@ -3,6 +3,7 @@ package com.supermartijn642.benched.seat;
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,7 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(){
+    protected void defineSynchedData(SynchedEntityData.Builder builder){
     }
 
     @Override

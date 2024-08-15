@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:jungle_bench"
+      "id": "benched:jungle_bench"
     },
     "title": {
       "translate": "benched.advancement.recipes/misc/jungle_bench.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:jungle_planks"
-            ]
+            "items": "minecraft:jungle_planks"
           }
         ]
       }

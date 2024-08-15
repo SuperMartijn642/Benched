@@ -10,8 +10,8 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "benched:dark_oak_bench"
+          "name": "benched:dark_oak_bench",
+          "type": "minecraft:item"
         }
       ]
     }

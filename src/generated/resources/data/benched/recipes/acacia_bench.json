@@ -10,10 +10,10 @@
       "item": "minecraft:acacia_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:acacia_bench"
+    "id": "benched:acacia_bench"
   }
 }

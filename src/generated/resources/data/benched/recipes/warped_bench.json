@@ -10,10 +10,10 @@
       "item": "minecraft:warped_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:warped_bench"
+    "id": "benched:warped_bench"
   }
 }

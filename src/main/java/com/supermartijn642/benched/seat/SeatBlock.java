@@ -26,5 +26,5 @@ public abstract class SeatBlock extends BaseBlock {
         return InteractionFeedback.SUCCESS;
     }
 
-    protected abstract double getSeatHeight();
+    protected abstract Vec3 getSeatPosition(BlockState state, BlockPos pos);
 }

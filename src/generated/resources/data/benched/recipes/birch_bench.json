@@ -10,10 +10,10 @@
       "item": "minecraft:birch_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:birch_bench"
+    "id": "benched:birch_bench"
   }
 }

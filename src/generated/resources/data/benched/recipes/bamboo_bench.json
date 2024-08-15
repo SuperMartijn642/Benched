@@ -10,10 +10,10 @@
       "item": "minecraft:bamboo"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:bamboo_bench"
+    "id": "benched:bamboo_bench"
   }
 }

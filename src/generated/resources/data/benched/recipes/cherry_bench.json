@@ -10,10 +10,10 @@
       "item": "minecraft:cherry_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:cherry_bench"
+    "id": "benched:cherry_bench"
   }
 }

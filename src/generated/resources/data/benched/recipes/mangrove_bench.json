@@ -10,10 +10,10 @@
       "item": "minecraft:mangrove_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:mangrove_bench"
+    "id": "benched:mangrove_bench"
   }
 }

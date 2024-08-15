@@ -2,6 +2,7 @@ package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.BenchedConfig;
+import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.block.BaseBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -84,7 +85,7 @@ public class BenchBlockEntity extends BaseBlockEntity {
         }
         compound.putInt("shape", this.shape);
         ListTag items = new ListTag();
-        this.items.forEach(item -> items.add(item.save(new CompoundTag())));
+        this.items.forEach(item -> items.add(item.saveOptional(this.level.registryAccess())));
         compound.put("items", items);
         return compound;
     }
@@ -101,6 +102,6 @@ public class BenchBlockEntity extends BaseBlockEntity {
         this.shape = compound.getInt("shape");
         this.items.clear();
         ListTag items = compound.contains("items") ? (ListTag)compound.get("items") : new ListTag();
-        items.forEach(tag -> this.items.add(ItemStack.of((CompoundTag)tag)));
+        items.forEach(tag -> this.items.add(ItemStack.parseOptional(CommonUtils.getRegistryAccess(), (CompoundTag)tag)));
     }
 }

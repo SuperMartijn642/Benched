@@ -10,10 +10,10 @@
       "item": "minecraft:crimson_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:crimson_bench"
+    "id": "benched:crimson_bench"
   }
 }

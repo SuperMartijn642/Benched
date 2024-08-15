@@ -83,8 +83,8 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
     }
 
     @Override
-    protected double getSeatHeight(){
-        return 0.7;
+    protected Vec3 getSeatPosition(BlockState state, BlockPos pos){
+        return new Vec3(pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5);
     }
 
     @Override

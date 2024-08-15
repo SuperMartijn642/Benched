@@ -10,10 +10,10 @@
       "item": "minecraft:jungle_planks"
     },
     "B": {
-      "tag": "forge:rods/wooden"
+      "tag": "c:rods/wooden"
     }
   },
   "result": {
-    "item": "benched:jungle_bench"
+    "id": "benched:jungle_bench"
   }
 }

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:spruce_bench"
+      "id": "benched:spruce_bench"
     },
     "title": {
       "translate": "benched.advancement.recipes/misc/spruce_bench.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:spruce_planks"
-            ]
+            "items": "minecraft:spruce_planks"
           }
         ]
       }

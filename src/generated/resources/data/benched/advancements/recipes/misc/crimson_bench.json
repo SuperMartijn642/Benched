@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:crimson_bench"
+      "id": "benched:crimson_bench"
     },
     "title": {
       "translate": "benched.advancement.recipes/misc/crimson_bench.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:crimson_planks"
-            ]
+            "items": "minecraft:crimson_planks"
           }
         ]
       }

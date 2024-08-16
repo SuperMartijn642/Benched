@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:cherry_bench"
+      "id": "benched:cherry_bench"
     },
     "title": {
       "translate": "benched.advancement.recipes/misc/cherry_bench.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:cherry_planks"
-            ]
+            "items": "minecraft:cherry_planks"
           }
         ]
       }

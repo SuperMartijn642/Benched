@@ -28,8 +28,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +83,8 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
     }
 
     @Override
-    protected double getSeatHeight(){
-        return 0.7;
+    protected Vec3 getSeatPosition(BlockState state, BlockPos pos){
+        return new Vec3(pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5);
     }
 
     @Override
@@ -181,7 +179,6 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
         return Shapes.empty();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos){
         return 1F;
     }

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "benched:dark_oak_bench"
+      "id": "benched:dark_oak_bench"
     },
     "title": {
       "translate": "benched.advancement.recipes/misc/dark_oak_bench.title"
@@ -27,9 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:dark_oak_planks"
-            ]
+            "items": "minecraft:dark_oak_planks"
           }
         ]
       }

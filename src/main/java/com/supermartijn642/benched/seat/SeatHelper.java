@@ -4,7 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
@@ -14,14 +16,15 @@ import java.util.List;
 public class SeatHelper {
 
     public static void sitPlayerDown(Level level, BlockPos pos, Player player){
-        Block block = level.getBlockState(pos).getBlock();
+        BlockState state = level.getBlockState(pos);
+        Block block = state.getBlock();
         if(block instanceof SeatBlock){
             List<SeatEntity> entities = level.getEntitiesOfClass(SeatEntity.class, new AABB(pos).deflate(0.1));
 
             SeatEntity entity;
             if(entities.isEmpty()){
-                double seatHeight = ((SeatBlock)block).getSeatHeight();
-                entity = new SeatEntity(level, pos, seatHeight);
+                Vec3 seatPosition = ((SeatBlock)block).getSeatPosition(state, pos);
+                entity = new SeatEntity(level, seatPosition);
                 level.addFreshEntity(entity);
             }
             else

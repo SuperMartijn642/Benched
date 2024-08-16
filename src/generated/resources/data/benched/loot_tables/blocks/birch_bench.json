@@ -10,8 +10,8 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "benched:birch_bench"
+          "name": "benched:birch_bench",
+          "type": "minecraft:item"
         }
       ]
     }

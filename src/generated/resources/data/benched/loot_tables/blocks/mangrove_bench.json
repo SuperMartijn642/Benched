@@ -10,8 +10,8 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "benched:mangrove_bench"
+          "name": "benched:mangrove_bench",
+          "type": "minecraft:item"
         }
       ]
     }

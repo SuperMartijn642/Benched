@@ -2,13 +2,13 @@ package com.supermartijn642.benched.seat;
 
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Created 12/26/2020 by SuperMartijn642
@@ -21,10 +21,9 @@ public class SeatEntity extends Entity {
         super(Benched.seat_entity, level);
     }
 
-    public SeatEntity(Level level, BlockPos pos, double seatHeight){
+    public SeatEntity(Level level, Vec3 seatPosition){
         super(Benched.seat_entity, level);
-        this.seatHeight = seatHeight;
-        this.setPos(pos.getX() + 0.5, pos.getY() + seatHeight, pos.getZ() + 0.5);
+        this.setPos(seatPosition);
     }
 
     @Override
@@ -36,7 +35,12 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(){
+    public Vec3 getDismountLocationForPassenger(LivingEntity livingEntity){
+        return new Vec3(this.getX(), Math.ceil(this.getY()), this.getZ());
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder){
     }
 
     @Override
@@ -51,12 +55,7 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    public double getPassengersRidingOffset(){
-        return -0.5 + this.seatHeight;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(){
-        return NetworkHooks.getEntitySpawningPacket(this);
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float p_296362_){
+        return new Vec3(0, -0.3 + this.seatHeight, 0);
     }
 }

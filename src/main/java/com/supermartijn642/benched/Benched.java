@@ -9,6 +9,9 @@ import com.supermartijn642.core.registry.GeneratorRegistrationHandler;
 import com.supermartijn642.core.registry.RegistrationHandler;
 import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
@@ -46,7 +49,12 @@ public class Benched implements ModInitializer {
             return BaseBlockEntityType.create(BenchBlockEntity::new, blocks);
         });
         // Seat entity
-        handler.registerEntityType("seat_entity", () -> EntityType.Builder.of((type, level) -> new SeatEntity(level), MobCategory.MISC).sized(0, 0).build(""));
+        handler.registerEntityType(
+            "seat_entity",
+            () -> EntityType.Builder.of((type, level) -> new SeatEntity(level), MobCategory.MISC)
+                .sized(0, 0)
+                .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("benched", "seat_entity")))
+        );
     }
 
     private static void registerGenerators(){

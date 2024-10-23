@@ -4,6 +4,8 @@ import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.blocks.BenchBlock;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -31,6 +33,11 @@ public class SeatEntity extends Entity {
 
         if(!this.level().isClientSide && (this.getPassengers().isEmpty() || !(this.level().getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
             this.discard();
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f){
+        return false;
     }
 
     @Override

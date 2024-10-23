@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:birch_planks"
-    },
-    "B": {
-      "tag": "c:rods/wooden"
-    }
+    "A": "minecraft:birch_planks",
+    "B": "#c:rods/wooden"
   },
   "result": {
     "id": "benched:bamboo_bench"

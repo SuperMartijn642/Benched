@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:jungle_planks"
-    },
-    "B": {
-      "tag": "c:rods/wooden"
-    }
+    "A": "minecraft:jungle_planks",
+    "B": "#c:rods/wooden"
   },
   "result": {
     "id": "benched:mangrove_bench"

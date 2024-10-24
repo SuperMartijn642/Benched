@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:dark_oak_planks"
-    },
-    "B": {
-      "tag": "c:rods/wooden"
-    }
+    "A": "minecraft:dark_oak_planks",
+    "B": "#c:rods/wooden"
   },
   "result": {
     "id": "benched:dark_oak_bench"

@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:warped_planks"
-    },
-    "B": {
-      "tag": "c:rods/wooden"
-    }
+    "A": "minecraft:warped_planks",
+    "B": "#c:rods/wooden"
   },
   "result": {
     "id": "benched:warped_bench"

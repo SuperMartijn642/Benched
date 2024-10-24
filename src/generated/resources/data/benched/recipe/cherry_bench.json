@@ -6,12 +6,8 @@
     "B B"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:cherry_planks"
-    },
-    "B": {
-      "tag": "c:rods/wooden"
-    }
+    "A": "minecraft:cherry_planks",
+    "B": "#c:rods/wooden"
   },
   "result": {
     "id": "benched:cherry_bench"

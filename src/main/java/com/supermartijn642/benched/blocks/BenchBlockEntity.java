@@ -13,6 +13,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Optional;
+
 /**
  * Created 11/1/2020 by SuperMartijn642
  */
@@ -48,7 +50,9 @@ public class BenchBlockEntity extends BaseBlockEntity {
         return this.items.remove(this.items.size() - 1);
     }
 
-    public void dropItems(){
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state){
+        super.preRemoveSideEffects(pos, state);
         Containers.dropContents(this.level, this.worldPosition, this.items);
         this.items.clear();
     }
@@ -57,7 +61,7 @@ public class BenchBlockEntity extends BaseBlockEntity {
     protected CompoundTag writeData(){
         CompoundTag compound = new CompoundTag();
         ListTag items = new ListTag();
-        this.items.forEach(item -> items.add(item.saveOptional(this.level.registryAccess())));
+        this.items.forEach(item -> items.add(item.save(this.level.registryAccess())));
         compound.put("items", items);
         return compound;
     }
@@ -65,7 +69,10 @@ public class BenchBlockEntity extends BaseBlockEntity {
     @Override
     protected void readData(CompoundTag compound){
         this.items.clear();
-        ListTag items = compound.contains("items") ? (ListTag)compound.get("items") : new ListTag();
-        items.forEach(tag -> this.items.add(ItemStack.parseOptional(CommonUtils.getRegistryAccess(), (CompoundTag)tag)));
+        compound.getListOrEmpty("items").stream()
+            .map(tag -> ItemStack.parse(CommonUtils.getRegistryAccess(), tag))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .forEach(this.items::add);
     }
 }

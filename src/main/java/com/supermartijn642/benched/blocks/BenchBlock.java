@@ -6,6 +6,7 @@ import com.supermartijn642.core.block.BlockShape;
 import com.supermartijn642.core.block.EntityHoldingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
@@ -123,26 +124,20 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving){
-        if(state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())){
-            BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof BenchBlockEntity)
-                ((BenchBlockEntity)entity).dropItems();
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving){
+        // Remove the other bench blocks
+        Part mainPart = state.getValue(PART);
+        BlockPos lowPos = pos.offset(-mainPart.getXOffset(), 0, -mainPart.getZOffset());
 
-            // Remove the other bench blocks
-            Part mainPart = state.getValue(PART);
-            BlockPos lowPos = pos.offset(-mainPart.getXOffset(), 0, -mainPart.getZOffset());
-
-            for(Part part : Part.values()){
-                if(part != mainPart){
-                    BlockPos partPos = lowPos.offset(part.getXOffset(), 0, part.getZOffset());
-                    BlockState partState = level.getBlockState(partPos);
-                    if(partState.getBlock() == this)
-                        level.setBlock(partPos, partState.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState(), 1 | 2);
-                }
+        for(Part part : Part.values()){
+            if(part != mainPart){
+                BlockPos partPos = lowPos.offset(part.getXOffset(), 0, part.getZOffset());
+                BlockState partState = level.getBlockState(partPos);
+                if(partState.getBlock() == this)
+                    level.setBlock(partPos, partState.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState(), 1 | 2);
             }
         }
-        super.onRemove(state, level, pos, newState, isMoving);
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
     }
 
     @Override

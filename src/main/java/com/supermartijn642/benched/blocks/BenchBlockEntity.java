@@ -2,18 +2,15 @@ package com.supermartijn642.benched.blocks;
 
 import com.supermartijn642.benched.Benched;
 import com.supermartijn642.benched.BenchedConfig;
-import com.supermartijn642.core.CommonUtils;
 import com.supermartijn642.core.block.BaseBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Optional;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 /**
  * Created 11/1/2020 by SuperMartijn642
@@ -58,21 +55,13 @@ public class BenchBlockEntity extends BaseBlockEntity {
     }
 
     @Override
-    protected CompoundTag writeData(){
-        CompoundTag compound = new CompoundTag();
-        ListTag items = new ListTag();
-        this.items.forEach(item -> items.add(item.save(this.level.registryAccess())));
-        compound.put("items", items);
-        return compound;
+    protected void writeData(ValueOutput output){
+        this.items.forEach(output.list("items", ItemStack.CODEC)::add);
     }
 
     @Override
-    protected void readData(CompoundTag compound){
+    protected void readData(ValueInput input){
         this.items.clear();
-        compound.getListOrEmpty("items").stream()
-            .map(tag -> ItemStack.parse(CommonUtils.getRegistryAccess(), tag))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .forEach(this.items::add);
+        input.list("items", ItemStack.CODEC).ifPresent(items -> items.stream().forEach(this.items::add));
     }
 }

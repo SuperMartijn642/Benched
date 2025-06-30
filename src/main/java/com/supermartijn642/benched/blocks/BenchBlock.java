@@ -6,6 +6,7 @@ import com.supermartijn642.core.block.BlockShape;
 import com.supermartijn642.core.block.EntityHoldingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -151,21 +152,19 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving){
-        if(state.hasBlockEntity() && (!state.is(newState.getBlock()) || !newState.hasBlockEntity())){
-            BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof BenchBlockEntity){
-                ((BenchBlockEntity)entity).dropItems();
-                for(BlockPos other : ((BenchBlockEntity)entity).getOthers()){
-                    BlockState state1 = level.getBlockState(other);
-                    if(state1.getBlock() == this){
-                        level.setBlockAndUpdate(other,
-                            state1.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState());
-                    }
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving){
+        BlockEntity entity = level.getBlockEntity(pos);
+        if(entity instanceof BenchBlockEntity){
+            ((BenchBlockEntity)entity).dropItems();
+            for(BlockPos other : ((BenchBlockEntity)entity).getOthers()){
+                BlockState state1 = level.getBlockState(other);
+                if(state1.getBlock() == this){
+                    level.setBlockAndUpdate(other,
+                        state1.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState());
                 }
             }
         }
-        super.onRemove(state, level, pos, newState, isMoving);
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class SeatEntity extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag compound){
         if(compound.contains("seatHeight"))
-            this.seatHeight = compound.getDouble("seatHeight");
+            this.seatHeight = compound.getDoubleOr("seatHeight", 0.5);
     }
 
     @Override

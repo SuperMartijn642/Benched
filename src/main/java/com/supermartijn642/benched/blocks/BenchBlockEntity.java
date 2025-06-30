@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created 11/1/2020 by SuperMartijn642
@@ -85,7 +86,7 @@ public class BenchBlockEntity extends BaseBlockEntity {
         }
         compound.putInt("shape", this.shape);
         ListTag items = new ListTag();
-        this.items.forEach(item -> items.add(item.saveOptional(this.level.registryAccess())));
+        this.items.forEach(item -> items.add(item.save(this.level.registryAccess())));
         compound.put("items", items);
         return compound;
     }
@@ -94,14 +95,17 @@ public class BenchBlockEntity extends BaseBlockEntity {
     protected void readData(CompoundTag compound){
         this.others.clear();
         if(compound.contains("other1X"))
-            this.others.add(new BlockPos(compound.getInt("other1X"), compound.getInt("other1Y"), compound.getInt("other1Z")));
+            this.others.add(new BlockPos(compound.getIntOr("other1X", 0), compound.getIntOr("other1Y", 0), compound.getIntOr("other1Z", 0)));
         if(compound.contains("other2X"))
-            this.others.add(new BlockPos(compound.getInt("other2X"), compound.getInt("other2Y"), compound.getInt("other2Z")));
+            this.others.add(new BlockPos(compound.getIntOr("other2X", 0), compound.getIntOr("other2Y", 0), compound.getIntOr("other2Z", 0)));
         if(compound.contains("other3X"))
-            this.others.add(new BlockPos(compound.getInt("other3X"), compound.getInt("other3Y"), compound.getInt("other3Z")));
-        this.shape = compound.getInt("shape");
+            this.others.add(new BlockPos(compound.getIntOr("other3X", 0), compound.getIntOr("other3Y", 0), compound.getIntOr("other3Z", 0)));
+        this.shape = compound.getIntOr("shape", 0);
         this.items.clear();
-        ListTag items = compound.contains("items") ? (ListTag)compound.get("items") : new ListTag();
-        items.forEach(tag -> this.items.add(ItemStack.parseOptional(CommonUtils.getRegistryAccess(), (CompoundTag)tag)));
+        compound.getListOrEmpty("items").stream()
+            .map(tag -> ItemStack.parse(CommonUtils.getRegistryAccess(), tag))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .forEach(this.items::add);
     }
 }

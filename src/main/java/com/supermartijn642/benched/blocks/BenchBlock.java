@@ -62,7 +62,7 @@ public class BenchBlock extends SeatBlock implements EntityHoldingBlock, SimpleW
 
     @Override
     protected InteractionFeedback interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, Direction hitSide, Vec3 hitLocation){
-        if(!level.isClientSide){
+        if(!level.isClientSide()){
             ItemStack stack = player.getItemInHand(hand);
             BlockEntity entity = level.getBlockEntity(pos);
             if(stack.isEmpty()){

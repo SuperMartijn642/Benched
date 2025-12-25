@@ -21,7 +21,7 @@ public abstract class SeatBlock extends BaseBlock {
 
     @Override
     protected InteractionFeedback interact(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, Direction hitSide, Vec3 hitLocation){
-        if(!level.isClientSide)
+        if(!level.isClientSide())
             SeatHelper.sitPlayerDown(level, pos, player);
         return InteractionFeedback.SUCCESS;
     }

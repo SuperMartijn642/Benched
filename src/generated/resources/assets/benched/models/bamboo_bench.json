@@ -1,6 +1,8 @@
 {
-  "parent": "benched:bench_transformed",
+  "parent": "benched:bench",
   "textures": {
-    "main": "benched:bamboo_bench"
+    "logs": "minecraft:block/bamboo_block",
+    "planks": "minecraft:block/bamboo_planks",
+    "stripped": "minecraft:block/stripped_bamboo_block"
   }
 }

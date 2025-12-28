@@ -1,5 +1,5 @@
 {
-  "parent": "benched:bench",
+  "parent": "benched:bench_mirrored",
   "textures": {
     "logs": "minecraft:block/crimson_stem",
     "planks": "minecraft:block/crimson_planks",

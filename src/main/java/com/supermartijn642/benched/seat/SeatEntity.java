@@ -6,7 +6,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
@@ -33,7 +32,7 @@ public class SeatEntity extends Entity {
     public void tick(){
         super.tick();
 
-        if(!this.level().isClientSide && (this.getPassengers().isEmpty() || !(this.level().getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
+        if(!this.level().isClientSide() && (this.getPassengers().isEmpty() || !(this.level().getBlockState(this.blockPosition()).getBlock() instanceof BenchBlock)))
             this.discard();
     }
 
@@ -59,10 +58,5 @@ public class SeatEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(ValueOutput output){
         output.putDouble("seatHeight", this.seatHeight);
-    }
-
-    @Override
-    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float p_296362_){
-        return new Vec3(0, -0.3 + this.seatHeight, 0);
     }
 }

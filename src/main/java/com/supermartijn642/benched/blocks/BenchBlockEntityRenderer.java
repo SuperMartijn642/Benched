@@ -1,18 +1,18 @@
 package com.supermartijn642.benched.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.AxisAngle4d;
 import org.joml.Quaternionf;
 
 import java.util.Random;
@@ -20,41 +20,75 @@ import java.util.Random;
 /**
  * Created 3/25/2021 by SuperMartijn642
  */
-public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<BenchBlockEntity> {
+public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<BenchBlockEntity,BenchBlockEntityRenderer.State> {
 
-    private static final Random RANDOM = new Random();
     private static final ItemStackRenderState ITEM_RENDER_STATE = new ItemStackRenderState();
+    private static final Random RANDOM = new Random();
 
     @Override
-    public void render(BenchBlockEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay){
-        BlockState state = entity.getBlockState();
-        if(entity.items.isEmpty() || !(state.getBlock() instanceof BenchBlock))
+    public State createStateHolder(){
+        return new State();
+    }
+
+    @Override
+    public void updateState(State state, BenchBlockEntity entity, UpdateContext context){
+        if(entity.items.isEmpty()){
+            state.hasItems = false;
+            return;
+        }
+        state.hasItems = true;
+        state.pos = entity.getBlockPos();
+        state.blockState = entity.getBlockState();
+        if(state.items == null || entity.items.size() > state.items.length)
+            state.items = new ItemStackRenderState[entity.items.size()];
+        for(int i = 0; i < entity.items.size(); i++){
+            ItemStackRenderState stackRenderState = state.items[i];
+            if(stackRenderState == null){
+                stackRenderState = new ItemStackRenderState();
+                state.items[i] = stackRenderState;
+            }
+            ClientUtils.getMinecraft().getItemModelResolver().updateForTopItem(
+                stackRenderState,
+                entity.items.get(i),
+                ItemDisplayContext.GROUND,
+                entity.getLevel(),
+                null,
+                (int)entity.getBlockPos().asLong() + i
+            );
+        }
+    }
+
+    @Override
+    public void submit(SubmitNodeCollector output, State state, RenderContext context){
+        if(!state.hasItems)
             return;
 
-        BlockPos pos = entity.getBlockPos();
-        RANDOM.setSeed(pos.getX() * 11L + pos.getY() * 13L + pos.getZ() * 17L);
+        RANDOM.setSeed(state.pos.getX() * 11L + state.pos.getY() * 13L + state.pos.getZ() * 17L);
         RANDOM.nextDouble();
 
-        Direction benchDirection = state.getValue(BenchBlock.ROTATION);
-        Direction direction = Direction.from2DDataValue(entity.shape);
+        Direction.Axis benchAxis = state.blockState.getValue(BenchBlock.AXIS);
+        BenchBlock.Part benchPart = state.blockState.getValue(BenchBlock.PART);
+        double xOffset = benchAxis == Direction.Axis.Z ? 1 - 2 * benchPart.getXOffset() : 0;
+        double zOffset = benchAxis == Direction.Axis.X ? 1 - 2 * benchPart.getZOffset() : 0;
 
+        PoseStack poseStack = context.poseStack();
         poseStack.pushPose();
-        poseStack.translate(0.5, 0.9, 0.5);
-        poseStack.translate(0.2 * direction.getStepX(), 0, 0.2 * direction.getStepZ());
-        poseStack.mulPose(new Quaternionf(new AxisAngle4d(Math.toRadians(180 - benchDirection.toYRot()), 0, 1, 0)));
+        poseStack.translate(0.5, 0.95, 0.5);
+        poseStack.translate(0.25 * xOffset, 0, 0.25 * zOffset);
         ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
-        for(int i = 0; i < entity.items.size(); i++){
-            ItemStack stack = entity.items.get(i);
+        for(int i = 0; i < state.items.length; i++){
+            ItemStackRenderState stack = state.items[i];
             if(stack.isEmpty())
                 continue;
 
             poseStack.pushPose();
-            poseStack.mulPose(new Quaternionf(new AxisAngle4d(Math.PI / 2, 1, 0, 0)));
-            poseStack.mulPose(new Quaternionf(new AxisAngle4d(RANDOM.nextFloat() * 2 * Math.PI, 0, 0, 1)));
+            poseStack.mulPose(new Quaternionf().setAngleAxis(Math.PI / 2, 1, 0, 0));
+            poseStack.mulPose(new Quaternionf().setAngleAxis(RANDOM.nextDouble() * Math.PI * 2, 0, 0, 1));
             poseStack.translate(0, -0.1, 0);
 
-            renderer.renderStatic(stack, ItemDisplayContext.GROUND, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, bufferSource, entity.getLevel(), (int)pos.asLong() + i);
+            ModelFeatureRenderer.CrumblingOverlay breakingOverlay = context.breakingOverlay();
+            stack.submit(poseStack, output, context.packedLight(), breakingOverlay == null ? OverlayTexture.NO_OVERLAY : breakingOverlay.progress(), 0);
 
             poseStack.popPose();
 
@@ -62,5 +96,12 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
         }
 
         poseStack.popPose();
+    }
+
+    public static class State {
+        boolean hasItems = false;
+        BlockPos pos;
+        BlockState blockState;
+        ItemStackRenderState[] items;
     }
 }

@@ -17,8 +17,6 @@ import net.minecraft.world.phys.Vec3;
  */
 public class SeatEntity extends Entity {
 
-    private double seatHeight;
-
     public SeatEntity(Level level){
         super(Benched.seat_entity, level);
     }
@@ -52,11 +50,15 @@ public class SeatEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(ValueInput input){
-        this.seatHeight = input.getDoubleOr("seatHeight", 0.5);
     }
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output){
-        output.putDouble("seatHeight", this.seatHeight);
+    }
+
+    @Override
+    protected void positionRider(Entity entity, MoveFunction moveFunction){
+        Vec3 position = this.position();
+        moveFunction.accept(entity, position.x, position.y - 0.3, position.z);
     }
 }

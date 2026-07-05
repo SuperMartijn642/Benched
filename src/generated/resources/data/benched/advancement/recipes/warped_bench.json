@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "benched:jungle_bench"
+      "id": "benched:warped_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/misc/jungle_bench.title"
+      "translate": "benched.advancement.recipes/warped_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/misc/jungle_bench.description"
+      "translate": "benched.advancement.recipes/warped_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:jungle_bench"
+        "recipe": "benched:warped_bench"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:jungle_planks"
+            "items": "minecraft:warped_planks"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:jungle_bench"
+      "benched:warped_bench"
     ]
   }
 }

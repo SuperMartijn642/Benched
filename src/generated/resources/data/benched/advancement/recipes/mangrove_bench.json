@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "benched:bench"
+      "id": "benched:mangrove_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/misc/bench.title"
+      "translate": "benched.advancement.recipes/mangrove_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/misc/bench.description"
+      "translate": "benched.advancement.recipes/mangrove_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:bench"
+        "recipe": "benched:mangrove_bench"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oak_planks"
+            "items": "minecraft:jungle_planks"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:bench"
+      "benched:mangrove_bench"
     ]
   }
 }

@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "benched:acacia_bench"
+      "id": "benched:jungle_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/misc/acacia_bench.title"
+      "translate": "benched.advancement.recipes/jungle_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/misc/acacia_bench.description"
+      "translate": "benched.advancement.recipes/jungle_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:acacia_bench"
+        "recipe": "benched:jungle_bench"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:acacia_planks"
+            "items": "minecraft:jungle_planks"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:acacia_bench"
+      "benched:jungle_bench"
     ]
   }
 }

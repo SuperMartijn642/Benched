@@ -3,9 +3,7 @@ package com.supermartijn642.benched.blocks;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -22,7 +20,6 @@ import java.util.Random;
  */
 public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<BenchBlockEntity,BenchBlockEntityRenderer.State> {
 
-    private static final ItemStackRenderState ITEM_RENDER_STATE = new ItemStackRenderState();
     private static final Random RANDOM = new Random();
 
     @Override
@@ -75,7 +72,6 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
         poseStack.pushPose();
         poseStack.translate(0.5, 0.95, 0.5);
         poseStack.translate(0.25 * xOffset, 0, 0.25 * zOffset);
-        ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
         for(int i = 0; i < state.items.length; i++){
             ItemStackRenderState stack = state.items[i];

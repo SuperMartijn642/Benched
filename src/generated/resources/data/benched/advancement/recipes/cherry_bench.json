@@ -2,13 +2,13 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "id": "benched:bamboo_bench"
+      "id": "benched:cherry_bench"
     },
     "title": {
-      "translate": "benched.advancement.recipes/misc/bamboo_bench.title"
+      "translate": "benched.advancement.recipes/cherry_bench.title"
     },
     "description": {
-      "translate": "benched.advancement.recipes/misc/bamboo_bench.description"
+      "translate": "benched.advancement.recipes/cherry_bench.description"
     },
     "frame": "task",
     "show_toast": false,
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:bamboo_bench"
+        "recipe": "benched:cherry_bench"
       }
     },
     "recipe_condition": {
@@ -27,7 +27,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:birch_planks"
+            "items": "minecraft:crimson_planks"
           }
         ]
       }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "benched:bamboo_bench"
+      "benched:cherry_bench"
     ]
   }
 }

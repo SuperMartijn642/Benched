@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:acacia_bench"
+        "recipes": "benched:acacia_bench"
       }
     },
     "recipe_condition": {

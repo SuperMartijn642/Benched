@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:dark_oak_bench"
+        "recipes": "benched:dark_oak_bench"
       }
     },
     "recipe_condition": {

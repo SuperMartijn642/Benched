@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:jungle_bench"
+        "recipes": "benched:jungle_bench"
       }
     },
     "recipe_condition": {

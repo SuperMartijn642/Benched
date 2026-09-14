@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:bamboo_bench"
+        "recipes": "benched:bamboo_bench"
       }
     },
     "recipe_condition": {

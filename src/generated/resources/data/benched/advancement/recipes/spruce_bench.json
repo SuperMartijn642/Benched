@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "benched:spruce_bench"
+        "recipes": "benched:spruce_bench"
       }
     },
     "recipe_condition": {

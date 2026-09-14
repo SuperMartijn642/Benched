@@ -1,6 +1,7 @@
 package com.supermartijn642.benched.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.supermartijn642.core.ClientUtils;
 import com.supermartijn642.core.render.CustomBlockEntityRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -11,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.Quaternionf;
 
 import java.util.Random;
 
@@ -79,8 +79,8 @@ public class BenchBlockEntityRenderer implements CustomBlockEntityRenderer<Bench
                 continue;
 
             poseStack.pushPose();
-            poseStack.mulPose(new Quaternionf().setAngleAxis(Math.PI / 2, 1, 0, 0));
-            poseStack.mulPose(new Quaternionf().setAngleAxis(RANDOM.nextDouble() * Math.PI * 2, 0, 0, 1));
+            poseStack.rotate(Axis.XP, (float)Math.PI / 2);
+            poseStack.rotate(Axis.ZP, RANDOM.nextFloat() * (float)Math.PI * 2);
             poseStack.translate(0, -0.1, 0);
 
             ModelFeatureRenderer.CrumblingOverlay breakingOverlay = context.breakingOverlay();
